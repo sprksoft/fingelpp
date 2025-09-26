@@ -20,7 +20,7 @@ func main() {
 
 	port := "2025"
 	fmt.Println("Starting FinGel++ HTTP server on port: " + port)
-	if err := http.ListenAndServe(":"+port, nil); err != nil {
+	if err := http.ListenAndServe("localhost:"+port, nil); err != nil {
 		log.Fatalf("Error starting server: %v", err)
 	}
 }
