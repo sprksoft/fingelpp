@@ -8,15 +8,14 @@ import (
 )
 
 func main() {
-	http.HandleFunc("/", handler.DynamicHandler)
+
+	http.HandleFunc("/", handler.Index)
+	http.HandleFunc("/lesson/{lesson_id}", handler.Lesson)
 	http.HandleFunc("/favicon.ico", func(w http.ResponseWriter, r *http.Request) {
-		http.ServeFile(w, r, "content/static/favicon.ico")
+		http.ServeFile(w, r, "./www/static/favicon.ico")
 	})
 
-	http.Handle("/css/", http.StripPrefix("/css/", http.FileServer(http.Dir("./content/css"))))
-	http.Handle("/js/", http.StripPrefix("/js/", http.FileServer(http.Dir("./content/js"))))
-	http.Handle("/static/", http.StripPrefix("/static/", http.FileServer(http.Dir("./content/static"))))
-	http.Handle("/media/", http.StripPrefix("/media/", http.FileServer(http.Dir("./content/media"))))
+	http.Handle("/static/", http.FileServer(http.Dir("./www")))
 
 	port := "2025"
 	fmt.Println("Starting FinGel++ HTTP server on port: " + port)

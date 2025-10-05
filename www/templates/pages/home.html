@@ -1,0 +1,8 @@
+{{ define "content" }}
+<h1>fingel++</h1>
+<ol>
+  {{range .}}
+  <li><a href="/lesson/{{ .Id }}">{{ .Name }}</a></li>
+  {{end}}
+</ol>
+{{end}}
