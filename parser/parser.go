@@ -6,7 +6,7 @@ import (
 )
 
 type block interface {
-	getHTML()
+	getHTML() string
 }
 
 type text struct {
@@ -31,10 +31,6 @@ func (k kennis) getHTML() string {
 
 func (e exercise) getHTML() string {
 	return e.Content
-}
-
-func getBlockHTML(b block) string {
-	return b.getHTML()
 }
 
 func ParseMd(mdText string) string {
