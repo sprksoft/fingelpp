@@ -6,11 +6,6 @@ import (
 	"net/http"
 )
 
-type les struct {
-	Name string
-	Id   int
-}
-
 func Index(w http.ResponseWriter, r *http.Request) {
 
 	lessen := []les{
