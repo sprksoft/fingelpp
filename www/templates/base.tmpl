@@ -1,16 +1,12 @@
-{{define "base"}}
 <!doctype html>
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>fingel++</title>
+    <title>{{ block "title" . }}fingel++{{ end }}</title>
     <link href="/static/css/base.css" rel="stylesheet" />
   </head>
   <body>
-    <header></header>
-    <main>{{template "content" .}}</main>
-    <footer></footer>
+    {{ template "content" . }}
   </body>
 </html>
-{{end}}
