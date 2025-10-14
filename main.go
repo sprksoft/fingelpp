@@ -4,14 +4,13 @@ import (
 	"net/http"
 	"path/filepath"
 
+	"fingelpp/parser"
+
 	"github.com/gin-contrib/multitemplate"
 	"github.com/gin-gonic/gin"
 )
 
-type les struct {
-	Name string
-	Id   int
-}
+var lessonManager = parser.LoadLessons("./content")
 
 func createHTMLRenderer(rootDir string) multitemplate.Renderer {
 	r := multitemplate.NewRenderer()
@@ -32,25 +31,36 @@ func createHTMLRenderer(rootDir string) multitemplate.Renderer {
 	return r
 }
 
+func ReqError(c *gin.Context, code int) {
+	c.HTML(code, "error.tmpl", code)
+}
+
 func main() {
 	r := gin.Default()
 	r.HTMLRender = createHTMLRenderer("./www/templates")
 	r.Static("/static", "./www/static")
 
 	r.GET("/", func(c *gin.Context) {
-		lessen := []les{
-			les{Id: 0, Name: "test les 1"},
-			les{Id: 1, Name: "test les 2"},
-			les{Id: 2, Name: "test les 3"},
-		}
-		c.HTML(http.StatusOK, "home.tmpl", lessen)
 
+		c.HTML(http.StatusOK, "home.tmpl", lessonManager.Chapters)
 	})
 
 	r.GET("/lesson/:id", func(c *gin.Context) {
-		id := c.Param("id")
+		id, err := parser.ParseLessonId(c.Param("id"))
+		if err != nil {
+			ReqError(c, http.StatusBadRequest)
+			return
+		}
 
-		c.HTML(http.StatusOK, "lesson.tmpl", id)
+		lesson := lessonManager.GetLessonById(id)
+		if lesson == nil {
+			ReqError(c, http.StatusNotFound)
+			return
+		}
+
+		chap := lessonManager.GetChapterById(lesson.Id.ChapterId())
+
+		c.HTML(http.StatusOK, "lesson.tmpl", gin.H{"Lesson": lesson, "ChapterName": chap.Name, "ChapterId": lesson.Id.ChapterId()})
 	})
 
 	r.Run("localhost:2025")

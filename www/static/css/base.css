@@ -1,0 +1,7 @@
+html {
+  --color-accent: #00ffffff;
+}
+
+.lesson:target {
+  border: solid var(--color-accent) 2px;
+}

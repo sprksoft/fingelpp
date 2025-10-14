@@ -1,8 +1,14 @@
 {{ define "content" }}
-<h1>fingel++</h1>
-<ul>
-{{ range .}}
-<li><a href="/lesson/{{ .Id }}">{{ .Name }}</a></li>
-{{end}}
-</ul>
+<main>
+  <h1>fingel++</h1>
+
+  {{ range .}}
+  <h2>{{ .Name }}</h2>
+  <ul>
+    {{ range .Lessons }}
+      <li id="lesson-{{ .Id }}" class="lesson"><a href="/lesson/{{ .Id }}">{{ .Name }}</a></li>
+    {{end}}
+  </ul>
+  {{end}}
+</main>
 {{end}}
