@@ -5,3 +5,7 @@ html {
 .lesson:target {
   border: solid var(--color-accent) 2px;
 }
+
+.chapter:target {
+  border: solid var(--color-accent) 2px;
+}

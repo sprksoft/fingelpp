@@ -1,6 +1,7 @@
 package parser
 
 import (
+	"html/template"
 	"log"
 	"os"
 	"strings"
@@ -9,7 +10,7 @@ import (
 type Les struct {
 	Name    string
 	Id      LessonId
-	Content string /* Dit kan veranderd worden door de parser struct wanneer die werkt */
+	Content template.HTML
 }
 
 type Chapter struct {
@@ -47,9 +48,9 @@ func LoadLessons(path string) LessonManager {
 			if err != nil {
 				panic("Failed to read lesson: '" + lessonName + "'" + err.Error())
 			}
-			//TODO: call parser
+			parsedContent := ParseFinSyn(string(content))
 
-			les := Les{Name: lessonName, Id: LessonId{chapter: uint16(chapI), lesson: uint16(i)}, Content: string(content)}
+			les := Les{Name: lessonName, Id: LessonId{chapter: uint16(chapI), lesson: uint16(i)}, Content: parsedContent}
 
 			log.Printf("Loaded lesson: %s", les.Name)
 			lessons = append(lessons, les)

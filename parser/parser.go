@@ -1,88 +1,129 @@
 package parser
 
 import (
+	"html/template"
 	"regexp"
+	"strconv"
 	"strings"
 )
 
-type block interface {
-	getHTML() string
-}
-
-type text struct {
-	Content string
-}
-
-type kennis struct {
-	Name, Content string
-}
-
-type exercise struct {
-	Name, Content string
-}
-
-func (t text) getHTML() string {
-	return t.Content
-}
-
-func (k kennis) getHTML() string {
-	return k.Content
-}
-
-func (e exercise) getHTML() string {
-	return e.Content
-}
-
-func ParseMd(mdText string) string {
-	lines := strings.Split(mdText, "\n")
-	var builder strings.Builder
-	insideList := false
-
+// Applies the inline styles (bold, italic, underline,...)
+func finalizeTextBlock(text string) string {
 	boldItalicRe := regexp.MustCompile(`\*\*\_(.*?)\_\*\*`) // **_text_**
 	boldRe := regexp.MustCompile(`\*\*(.*?)\*\*`)           // **text**
 	italicRe := regexp.MustCompile(`\_(.*?)\_`)             // _text_
 
+	text = boldItalicRe.ReplaceAllString(text, "<strong><em>$1</em></strong>")
+	text = boldRe.ReplaceAllString(text, "<strong>$1</strong>")
+	text = italicRe.ReplaceAllString(text, "<em>$1</em>")
+	return text
+}
+
+type parser interface {
+	// Called when parser is created
+	init(builder *strings.Builder)
+
+	// Called for every line,
+	// return false to stop parsing and give the current line to another parser
+	next(builder *strings.Builder, line string) bool
+
+	// Called when the parser will be switched
+	finalize(builder *strings.Builder)
+}
+
+type paragraphParser struct{}
+
+func (p paragraphParser) init(builder *strings.Builder) {
+	builder.WriteString("<p>")
+}
+
+func (p paragraphParser) next(builder *strings.Builder, line string) bool {
+	if line == "" {
+		return false
+	}
+	builder.WriteString(finalizeTextBlock(line))
+	builder.WriteString("<br>")
+	return true
+}
+func (p paragraphParser) finalize(builder *strings.Builder) {
+	builder.WriteString("</p>")
+}
+
+type listParser struct{}
+
+func (p listParser) init(builder *strings.Builder) {
+	builder.WriteString("<ul>")
+}
+
+func (p listParser) next(builder *strings.Builder, line string) bool {
+	if !strings.HasPrefix(line, "-") {
+		return false
+	}
+	content := strings.TrimSpace(line[1:])
+	builder.WriteString("<li>")
+	builder.WriteString(finalizeTextBlock(content))
+	builder.WriteString("</li>")
+	return true
+}
+func (p listParser) finalize(builder *strings.Builder) {
+	builder.WriteString("</ul>")
+}
+
+type titleParser struct{}
+
+func (p titleParser) init(builder *strings.Builder) {}
+
+func (p titleParser) next(builder *strings.Builder, line string) bool {
+	for i, char := range line {
+		if char != '#' {
+			if i == 0 { // no hashtag found
+				return false
+			}
+			title := strings.TrimSpace(line[i:])
+			headingNum := strconv.FormatInt(int64(i+1), 10)
+			builder.WriteString("<h" + headingNum + ">" + title + "</h" + headingNum + ">")
+			return true
+		}
+	}
+	return false
+}
+func (p titleParser) finalize(builder *strings.Builder) {}
+
+func ParseFinSyn(mdText string) template.HTML {
+	lines := strings.Split(mdText, "\n")
+	var builder strings.Builder
+
+	var curParser parser
+	curParser = paragraphParser{}
+
+	switchParser := func(new parser) {
+		curParser.finalize(&builder)
+		curParser = new
+		curParser.init(&builder)
+	}
+
 	for _, line := range lines {
 		line = strings.TrimSpace(line)
-
-		if strings.HasPrefix(line, "##") {
-			insideList = false
-
-			// Extract and clean title
-			content := strings.TrimPrefix(line, "##")
-
-			builder.WriteString("<h2>" + content + "</h2>\n")
-
-		} else if strings.HasPrefix(line, "# ") {
-			insideList = false
-			content := strings.TrimPrefix(line, "# ")
-			builder.WriteString("<h1>" + content + "</h1>\n")
-
-		} else if strings.HasPrefix(line, "- ") {
-			line := strings.TrimPrefix(line, "- ")
-			if !insideList {
-				builder.WriteString("<ul>")
-			}
-			line = boldItalicRe.ReplaceAllString(line, "<strong><em>$1</em></strong>")
-			line = boldRe.ReplaceAllString(line, "<strong>$1</strong>")
-			line = italicRe.ReplaceAllString(line, "<em>$1</em>")
-			builder.WriteString(`<li>` + line + `</li>`)
-			insideList = true
-		} else if line != "" {
-			insideList = false
-			line = boldItalicRe.ReplaceAllString(line, "<strong><em>$1</em></strong>")
-			line = boldRe.ReplaceAllString(line, "<strong>$1</strong>")
-			line = italicRe.ReplaceAllString(line, "<em>$1</em>")
-			builder.WriteString("<p>" + line + "</p>\n")
+		if strings.HasPrefix(line, "//") {
+			continue
 		}
-		if !insideList {
-			builder.WriteString("</ul>")
+
+		if strings.HasPrefix(line, "- ") {
+			switchParser(listParser{})
+		}
+
+		if strings.HasPrefix(line, "#") {
+			switchParser(titleParser{})
+		}
+
+		if !curParser.next(&builder, line) {
+			// When the current parser doesn't want to parse. we switch to the paragraph parser
+			switchParser(paragraphParser{})
+			curParser.next(&builder, line)
 		}
 	}
 
-	// Final list cleanup
-	if insideList {
-		builder.WriteString("</ul>")
-	}
-	return builder.String()
+	curParser.finalize(&builder)
+
+	return template.HTML(builder.String())
 }

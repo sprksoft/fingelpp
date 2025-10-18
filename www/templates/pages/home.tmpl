@@ -2,10 +2,10 @@
 <main>
   <h1>fingel++</h1>
 
-  {{ range .}}
-  <h2>{{ .Name }}</h2>
+  {{ range $i, $chap := . }}
+  <h2 class="chapter" id="chapter-{{ $i }}">{{ $chap.Name }}</h2>
   <ul>
-    {{ range .Lessons }}
+    {{ range $chap.Lessons }}
       <li id="lesson-{{ .Id }}" class="lesson"><a href="/lesson/{{ .Id }}">{{ .Name }}</a></li>
     {{end}}
   </ul>
