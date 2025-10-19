@@ -1,5 +1,30 @@
 html {
-  --color-accent: #00ffffff;
+  font-family: "Montserrat", sans-serif;
+  --color-accent: #ffd5a0;
+  --color-text: #ffffff;
+  --color-bg: #ffffff20;
+  color: var(--color-text);
+}
+
+html {
+  background: #000000;
+}
+
+nav a {
+}
+
+main {
+  max-width: 100rem;
+  margin-left: auto;
+  margin-right: auto;
+  background: var(--color-bg);
+  padding: 2px 2rem;
+  border-radius: 60px;
+}
+
+p,
+.block {
+  margin-left: 0.5rem;
 }
 
 .lesson:target {
@@ -8,4 +33,34 @@ html {
 
 .chapter:target {
   border: solid var(--color-accent) 2px;
+}
+
+.block > .block-title {
+  margin: 0px;
+  padding: 0.1rem 0.5rem;
+
+  background: var(--block-border-color);
+  color: #ffffff;
+
+  font-size: 1rem;
+  font-weight: bold;
+}
+
+.block {
+  padding-top: 0px;
+  margin-bottom: 1rem;
+  background: var(--block-bg-color);
+  border: solid 2px var(--block-border-color);
+  border-radius: 10px;
+  overflow: clip;
+}
+
+.info {
+  --block-border-color: #497e49;
+  --block-bg-color: #61b761;
+}
+
+.exercise {
+  --block-border-color: #ac3638;
+  --block-bg-color: #dd565a;
 }

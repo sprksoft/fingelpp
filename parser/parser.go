@@ -1,9 +1,9 @@
 package parser
 
 import (
+	"fmt"
 	"html/template"
 	"regexp"
-	"strconv"
 	"strings"
 )
 
@@ -21,109 +21,77 @@ func finalizeTextBlock(text string) string {
 
 type parser interface {
 	// Called when parser is created
-	init(builder *strings.Builder)
+	init()
 
 	// Called for every line,
 	// return false to stop parsing and give the current line to another parser
-	next(builder *strings.Builder, line string) bool
+	next(line string) bool
 
 	// Called when the parser will be switched
-	finalize(builder *strings.Builder)
+	finalize()
 }
 
-type paragraphParser struct{}
-
-func (p paragraphParser) init(builder *strings.Builder) {
-	builder.WriteString("<p>")
+type finSynParser struct {
+	curParser parser
+	builder   *strings.Builder
 }
 
-func (p paragraphParser) next(builder *strings.Builder, line string) bool {
-	if line == "" {
-		return false
+func (p *finSynParser) switchParser(new parser) {
+	if p.curParser != nil {
+		p.curParser.finalize()
 	}
-	builder.WriteString(finalizeTextBlock(line))
-	builder.WriteString("<br>")
+	p.curParser = new
+	p.curParser.init()
+}
+
+func (p *finSynParser) init() {}
+
+func (p *finSynParser) next(line string) bool {
+	line = strings.TrimSpace(line)
+	if strings.HasPrefix(line, "//") { // skip comments
+		return true
+	}
+
+	if strings.HasPrefix(line, "- ") {
+		p.switchParser(&listParser{builder: p.builder})
+	}
+
+	if strings.HasPrefix(line, "#") {
+		p.switchParser(&titleParser{builder: p.builder})
+	}
+
+	if strings.HasPrefix(line, "> [INFO]") {
+		p.switchParser(&infoParser{builder: p.builder})
+	}
+	if strings.HasPrefix(line, "> [EX]") {
+		p.switchParser(&exersiseParser{builder: p.builder})
+	}
+
+	if (p.curParser == nil && line != "") || !p.curParser.next(line) {
+		// Switch to the paragraph parser. when current parser doesn't want to parse or when parser is nil
+		p.switchParser(&paragraphParser{builder: p.builder})
+		p.curParser.next(line)
+	}
+
 	return true
 }
-func (p paragraphParser) finalize(builder *strings.Builder) {
-	builder.WriteString("</p>")
+func (p *finSynParser) finalize() {
+	p.curParser.finalize()
 }
-
-type listParser struct{}
-
-func (p listParser) init(builder *strings.Builder) {
-	builder.WriteString("<ul>")
-}
-
-func (p listParser) next(builder *strings.Builder, line string) bool {
-	if !strings.HasPrefix(line, "-") {
-		return false
-	}
-	content := strings.TrimSpace(line[1:])
-	builder.WriteString("<li>")
-	builder.WriteString(finalizeTextBlock(content))
-	builder.WriteString("</li>")
-	return true
-}
-func (p listParser) finalize(builder *strings.Builder) {
-	builder.WriteString("</ul>")
-}
-
-type titleParser struct{}
-
-func (p titleParser) init(builder *strings.Builder) {}
-
-func (p titleParser) next(builder *strings.Builder, line string) bool {
-	for i, char := range line {
-		if char != '#' {
-			if i == 0 { // no hashtag found
-				return false
-			}
-			title := strings.TrimSpace(line[i:])
-			headingNum := strconv.FormatInt(int64(i+1), 10)
-			builder.WriteString("<h" + headingNum + ">" + title + "</h" + headingNum + ">")
-			return true
-		}
-	}
-	return false
-}
-func (p titleParser) finalize(builder *strings.Builder) {}
 
 func ParseFinSyn(mdText string) template.HTML {
 	lines := strings.Split(mdText, "\n")
 	var builder strings.Builder
 
-	var curParser parser
-	curParser = paragraphParser{}
-
-	switchParser := func(new parser) {
-		curParser.finalize(&builder)
-		curParser = new
-		curParser.init(&builder)
-	}
+	parser := finSynParser{builder: &builder}
+	parser.init()
+	fmt.Printf("%v\n", parser.curParser)
 
 	for _, line := range lines {
-		line = strings.TrimSpace(line)
-		if strings.HasPrefix(line, "//") {
-			continue
-		}
-
-		if strings.HasPrefix(line, "- ") {
-			switchParser(listParser{})
-		}
-
-		if strings.HasPrefix(line, "#") {
-			switchParser(titleParser{})
-		}
-
-		if !curParser.next(&builder, line) {
-			// When the current parser doesn't want to parse. we switch to the paragraph parser
-			switchParser(paragraphParser{})
-			curParser.next(&builder, line)
-		}
+		parser.next(line)
 	}
 
-	curParser.finalize(&builder)
+	parser.finalize()
 
 	return template.HTML(builder.String())
 }
