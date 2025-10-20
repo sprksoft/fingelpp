@@ -3,27 +3,59 @@ html {
   --color-accent: #ffd5a0;
   --color-text: #ffffff;
   --color-bg: #ffffff20;
+  --color-html-bg: #05070e;
   color: var(--color-text);
 }
 
+.info {
+  --block-border-color: #497e49;
+  --block-bg-color: #61b761;
+}
+
+.exercise {
+  --block-border-color: #ac3638;
+  --block-bg-color: #dd565a;
+}
+
 html {
-  background: #000000;
+  background: var(--color-html-bg);
+}
+
+nav {
+  width: 100%;
+  margin: 1rem 0rem;
+  padding: 1rem 0.5rem;
+}
+
+nav a:hover {
+  text-decoration: underline;
 }
 
 nav a {
+  background: var(--color-bg);
+  padding: 0.75rem;
+  border-radius: 1000px;
+  color: var(--color-accent);
+  text-decoration: none;
+  font-size: 1.3rem;
+  font-weight: 600;
+}
+
+nav span {
+  font-size: 1.3rem;
+  font-weight: 800;
 }
 
 main {
-  max-width: 100rem;
+  max-width: 80rem;
   margin-left: auto;
   margin-right: auto;
   background: var(--color-bg);
-  padding: 2px 2rem;
-  border-radius: 60px;
+  padding: 0.5rem 2rem;
+  border-radius: 2.5rem;
 }
 
-p,
-.block {
+p {
   margin-left: 0.5rem;
 }
 
@@ -37,12 +69,12 @@ p,
 
 .block > .block-title {
   margin: 0px;
-  padding: 0.1rem 0.5rem;
+  padding: 0.25rem 0.5rem;
 
   background: var(--block-border-color);
   color: #ffffff;
 
-  font-size: 1rem;
+  font-size: 1.2rem;
   font-weight: bold;
 }
 
@@ -51,16 +83,16 @@ p,
   margin-bottom: 1rem;
   background: var(--block-bg-color);
   border: solid 2px var(--block-border-color);
-  border-radius: 10px;
+  border-radius: 1.3rem;
   overflow: clip;
 }
 
-.info {
-  --block-border-color: #497e49;
-  --block-bg-color: #61b761;
+.block {
+  margin-left: 0.5rem;
 }
-
-.exercise {
-  --block-border-color: #ac3638;
-  --block-bg-color: #dd565a;
+.block .block {
+  margin-right: 0.5rem;
+}
+body {
+  margin: 0px;
 }

@@ -64,7 +64,7 @@ func LoadLessons(path string) LessonManager {
 }
 
 func (mgr *LessonManager) GetChapterById(id uint16) *Chapter {
-	if id < 0 || id >= uint16(len(mgr.Chapters)) {
+	if id >= uint16(len(mgr.Chapters)) {
 		return nil
 	}
 	return &mgr.Chapters[id]
