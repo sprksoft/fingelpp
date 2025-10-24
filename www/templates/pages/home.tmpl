@@ -1,7 +1,8 @@
 {{ define "content" }}
-<main>
+<header>
   <h1>fingel++</h1>
-
+</header>
+<main>
   {{ range $i, $chap := . }}
   <h2 class="chapter" id="chapter-{{ $i }}">{{ $chap.Name }}</h2>
   <ul>

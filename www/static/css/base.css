@@ -5,6 +5,7 @@ html {
   --color-bg: #ffffff20;
   --color-html-bg: #05070e;
   color: var(--color-text);
+  width: 100%;
 }
 
 .info {
@@ -21,14 +22,32 @@ html {
   background: var(--color-html-bg);
 }
 
+h2.chapter {
+  padding: 0.75rem;
+  border-radius: 1rem;
+}
+
 nav {
   width: 100%;
   margin: 1rem 0rem;
-  padding: 1rem 0.5rem;
+  padding: 1rem 0rem;
 }
 
 nav a:hover {
   text-decoration: underline;
+}
+
+li.lesson {
+  padding: 0.75rem;
+  border-radius: 1rem;
+  list-style-type: none;
+}
+
+.lesson a {
+  color: var(--color-accent);
+  text-decoration: none;
+  font-size: 1.3rem;
+  font-weight: 600;
 }
 
 nav a {
@@ -47,11 +66,12 @@ nav span {
 }
 
 main {
+  box-sizing: border-box;
+  width: 100%;
   max-width: 80rem;
-  margin-left: auto;
-  margin-right: auto;
+  align-self: center;
   background: var(--color-bg);
-  padding: 0.5rem 2rem;
+  padding: 0.5rem 1rem;
   border-radius: 2.5rem;
 }
 
@@ -60,20 +80,18 @@ p {
 }
 
 .lesson:target {
-  border: solid var(--color-accent) 2px;
+  border: solid var(--color-accent) 3px;
 }
 
 .chapter:target {
-  border: solid var(--color-accent) 2px;
+  border: solid var(--color-accent) 3px;
 }
 
 .block > .block-title {
   margin: 0px;
   padding: 0.25rem 0.5rem;
-
   background: var(--block-border-color);
   color: #ffffff;
-
   font-size: 1.2rem;
   font-weight: bold;
 }
@@ -90,9 +108,17 @@ p {
 .block {
   margin-left: 0.5rem;
 }
+
 .block .block {
   margin-right: 0.5rem;
 }
+
 body {
   margin: 0px;
+  box-sizing: border-box;
+  width: 100vw;
+  padding-left: 1rem;
+  padding-right: 1rem;
+  display: flex;
+  flex-direction: column;
 }
