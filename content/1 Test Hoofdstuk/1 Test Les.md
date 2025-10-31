@@ -10,17 +10,9 @@
 >
 > - eerste item
 > - tweede item
->   hier gaan we een 2de kennis blokje nesten (wordt niet gebruikt waarschijnlijk ma das grappig want da kan)
->   > [INFO] Nested kennis
->   > wow ik ben genest
 
 > [EX] Test oef
-> Ik ben een test  oef (automatisch toegevoegd aan oefenen tab?)
->
-> typ woord hier: @(woord)
->
-> @[o] ik ben het juiste antwoord
-> @[x] foute antwoord
+> Ik ben een test oef (automatisch toegevoegd aan oefenen tab?)
 
 ik ben een paragraaf
 met een enter er in zelfs

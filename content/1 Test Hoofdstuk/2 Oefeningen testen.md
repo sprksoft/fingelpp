@@ -16,6 +16,14 @@
 
 > [EX] Test oef
 > Ik ben een test oef (automatisch toegevoegd aan oefenen tab?)
+>
+> @[o] ik ben juist
+> @[x] ik ben **niet** juist
+
+> [EX] Input oef
+>
+> Vul hier 3 in @[num](3)
+> Vul text in @[text](text) @(text) // default input type is text
 
 ik ben een paragraaf
 met een enter er in zelfs

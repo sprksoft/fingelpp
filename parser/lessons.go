@@ -1,8 +1,9 @@
 package parser
 
 import (
+	"fingelpp/finsyn"
+	"github.com/charmbracelet/log"
 	"html/template"
-	"log"
 	"os"
 	"strings"
 )
@@ -48,11 +49,11 @@ func LoadLessons(path string) LessonManager {
 			if err != nil {
 				panic("Failed to read lesson: '" + lessonName + "'" + err.Error())
 			}
-			parsedContent := ParseFinSyn(string(content))
+			parsedContent := finsyn.ParseFinSyn(string(content))
 
 			les := Les{Name: lessonName, Id: LessonId{chapter: uint16(chapI), lesson: uint16(i)}, Content: parsedContent}
 
-			log.Printf("Loaded lesson: %s", les.Name)
+			log.Infof("Loaded lesson: %s", les.Name)
 			lessons = append(lessons, les)
 		}
 
