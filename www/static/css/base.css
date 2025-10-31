@@ -1,6 +1,7 @@
 html {
   font-family: "Montserrat", sans-serif;
   --color-accent: #ffd5a0;
+  --color-correct: #61b761;
   --color-text: #ffffff;
   --color-bg: #ffffff20;
   --color-html-bg: #05070e;
@@ -121,4 +122,14 @@ body {
   padding-right: 1rem;
   display: flex;
   flex-direction: column;
+}
+
+.exr {
+  border: 2px solid #000000;
+  border-radius: 10000px;
+  padding: 0.2rem 0.8rem;
+  margin: 0.2rem;
+}
+.exr.correct {
+  border-color: var(--color-correct);
 }

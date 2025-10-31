@@ -10,29 +10,8 @@
   </head>
   <body>
     {{ template "content" . }}
-    <script>
-const cssURL = "/static/css/base.css"; // change to your CSS file path
-const refreshRate = 500; // milliseconds
 
-function reloadCSS() {
-  const linkId = "live-css-reload";
-  let oldLink = document.getElementById(linkId);
-  const newLink = document.createElement("link");
-  newLink.rel = "stylesheet";
-  newLink.id = linkId;
-  // Append a timestamp to bypass cache
-  newLink.href = cssURL + "?t=" + Date.now();
-
-  newLink.onload = () => {
-    if (oldLink) oldLink.remove();
-  };
-
-  document.head.appendChild(newLink);
-}
-
-reloadCSS();
-setInterval(reloadCSS, refreshRate);
-</script>
-
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.slim.min.js" integrity="sha512-sNylduh9fqpYUK5OYXWcBleGzbZInWj8yCJAU57r1dpSK9tP2ghf/SRYCMj+KsslFkCOt3TvJrX2AV/Gc3wOqA==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <script src="/static/js/base.js"></script>
   </body>
 </html>

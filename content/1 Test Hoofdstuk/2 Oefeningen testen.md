@@ -24,6 +24,9 @@
 >
 > Vul hier 3 in @[num](3)
 > Vul text in @[text](text) @(text) // default input type is text
+> Comma getal test Vul hier 0,5 in @[num](0.5)
+> Breuk getal test Vul hier 1/2 in @[num](1/2)
+> 1/3 in @[num](1/3)
 
 ik ben een paragraaf
 met een enter er in zelfs

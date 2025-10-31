@@ -23,10 +23,7 @@ func exerStyler(s string) string {
 		}
 		awnser := strings.TrimSuffix(s, ")")
 
-		if inputType == "num" {
-			inputType = "number"
-		}
-		return "<input type=\"" + inputType + "\" data-awnser=\"" + awnser + "\">"
+		return "<input autocomplete=no class=\"exr\" data-type=" + inputType + " type=\"text\" data-awnser=\"" + awnser + "\">"
 	})
 	return s
 }
@@ -119,6 +116,5 @@ func (p *multipleChoiceParser) Next(line string) bool {
 
 func (p *multipleChoiceParser) Finalize() {
 	p.builder.WriteString("</ul>")
-	p.builder.WriteString("<button>Check</button>")
 	p.builder.WriteString("</div>")
 }
