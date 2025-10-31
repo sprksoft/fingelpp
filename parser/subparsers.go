@@ -7,6 +7,10 @@ import (
 
 type paragraphParser struct{ builder *strings.Builder }
 
+func (*paragraphParser) wanted(line string) bool {
+	return line != ""
+}
+
 func (p *paragraphParser) init() {
 	p.builder.WriteString("<p>")
 }
@@ -24,6 +28,10 @@ func (p *paragraphParser) finalize() {
 }
 
 type listParser struct{ builder *strings.Builder }
+
+func (*listParser) wanted(line string) bool {
+	return strings.HasPrefix(line, "- ")
+}
 
 func (p *listParser) init() {
 	p.builder.WriteString("<ul>")
@@ -44,6 +52,10 @@ func (p *listParser) finalize() {
 }
 
 type titleParser struct{ builder *strings.Builder }
+
+func (*titleParser) wanted(line string) bool {
+	return strings.HasPrefix(line, "#")
+}
 
 func (p *titleParser) init() {}
 
@@ -66,6 +78,10 @@ func (p *titleParser) finalize() {}
 type infoParser struct {
 	builder *strings.Builder
 	finsyn  finSynParser
+}
+
+func (*infoParser) wanted(line string) bool {
+	return strings.HasPrefix(line, "> [INFO]")
 }
 
 func (p *infoParser) init() {
@@ -93,40 +109,6 @@ func (p *infoParser) next(line string) bool {
 }
 
 func (p *infoParser) finalize() {
-	p.finsyn.finalize()
-	p.builder.WriteString("</section>")
-}
-
-type exersiseParser struct {
-	builder *strings.Builder
-	finsyn  finSynParser
-}
-
-func (p *exersiseParser) init() {
-	p.builder.WriteString("<section class=\"block exercise\">")
-	p.finsyn = finSynParser{builder: p.builder}
-	p.finsyn.init()
-}
-
-func (p *exersiseParser) next(line string) bool {
-	if !strings.HasPrefix(line, ">") {
-		return false
-	}
-	line = strings.TrimSpace(line[1:])
-
-	if strings.HasPrefix(line, "[EX]") {
-		title := strings.TrimSpace(line[len("[INFO]"):])
-		p.builder.WriteString("<h1 class=\"block-title\">")
-		p.builder.WriteString(title)
-		p.builder.WriteString("</h1>")
-	} else {
-		p.finsyn.next(line)
-	}
-
-	return true
-}
-
-func (p *exersiseParser) finalize() {
 	p.finsyn.finalize()
 	p.builder.WriteString("</section>")
 }

@@ -29,6 +29,9 @@ type parser interface {
 
 	// Called when the parser will be switched
 	finalize()
+
+	// Check if the line wants to be parsed by the parser
+	wanted(line string) bool
 }
 
 type finSynParser struct {
@@ -52,18 +55,18 @@ func (p *finSynParser) next(line string) bool {
 		return true
 	}
 
-	if strings.HasPrefix(line, "- ") {
+	if (*listParser).wanted(nil, line) {
 		p.switchParser(&listParser{builder: p.builder})
 	}
 
-	if strings.HasPrefix(line, "#") {
+	if (*titleParser).wanted(nil, line) {
 		p.switchParser(&titleParser{builder: p.builder})
 	}
 
-	if strings.HasPrefix(line, "> [INFO]") {
+	if (*infoParser).wanted(nil, line) {
 		p.switchParser(&infoParser{builder: p.builder})
 	}
-	if strings.HasPrefix(line, "> [EX]") {
+	if (*exersiseParser).wanted(nil, line) {
 		p.switchParser(&exersiseParser{builder: p.builder})
 	}
 
