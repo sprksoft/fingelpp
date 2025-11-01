@@ -4,6 +4,8 @@ import (
 	"fingelpp/parsermaker"
 	"regexp"
 	"strings"
+
+	"github.com/charmbracelet/log"
 )
 
 var exerRe = regexp.MustCompile(`@(\[[a-z]+\])?\(([^()\n]*)\)`) // @[text](value)
@@ -35,7 +37,7 @@ type ExersiseParser struct {
 
 func NewExersizeParser(builder *strings.Builder) *ExersiseParser {
 	parser := parsermaker.NewMultiParser(builder, []parsermaker.Parser{
-		&multipleChoiceParser{builder: builder},
+		&multipleChoiceParser{builder: builder, styler: BasicStyler},
 		NewListParser(builder),
 		NewParagraphParserWithStyler(builder, exerStyler),
 	})
@@ -51,6 +53,7 @@ func (*ExersiseParser) Wanted(line string) bool {
 }
 
 func (p *ExersiseParser) Init() {
+	log.Info("exr init")
 	p.builder.WriteString("<section class=\"block exercise\">")
 	p.parser.Init()
 }
@@ -63,9 +66,10 @@ func (p *ExersiseParser) Next(line string) bool {
 
 	if strings.HasPrefix(line, "[EX]") {
 		title := strings.TrimSpace(line[len("[EX]"):])
-		p.builder.WriteString("<h1 class=\"block-title\">")
+		p.builder.WriteString("<div class=\"block-title\">")
+		p.builder.WriteString("<h1>")
 		p.builder.WriteString(title)
-		p.builder.WriteString("</h1>")
+		p.builder.WriteString("</h1><span class=score></span></div>")
 		return true
 	} else {
 		return p.parser.Next(line)
@@ -74,12 +78,14 @@ func (p *ExersiseParser) Next(line string) bool {
 }
 
 func (p *ExersiseParser) Finalize() {
+	log.Info("exr finalize")
 	p.parser.Finalize()
 	p.builder.WriteString("</section>")
 }
 
 type multipleChoiceParser struct {
 	builder *strings.Builder
+	styler  parsermaker.InlineStyler
 }
 
 func (*multipleChoiceParser) Wanted(line string) bool {
@@ -88,6 +94,7 @@ func (*multipleChoiceParser) Wanted(line string) bool {
 
 func (p *multipleChoiceParser) Init() {
 	p.builder.WriteString("<div class=\"exr-multiplechoice\"><ul>")
+	log.Info("mc init")
 }
 
 func (p *multipleChoiceParser) Next(line string) bool {
@@ -108,13 +115,15 @@ func (p *multipleChoiceParser) Next(line string) bool {
 		p.builder.WriteString("false")
 	}
 	p.builder.WriteString("><span>")
-	p.builder.WriteString(line[len("@[x]"):])
+	p.builder.WriteString(p.styler(line[len("@[x]"):]))
 	p.builder.WriteString("</span></label></li>")
 
 	return true
 }
 
 func (p *multipleChoiceParser) Finalize() {
+	log.Info("mc finalize")
 	p.builder.WriteString("</ul>")
+	p.builder.WriteString("<button>check</button>")
 	p.builder.WriteString("</div>")
 }

@@ -39,9 +39,9 @@ func (p *InfoParser) Next(line string) bool {
 
 	if strings.HasPrefix(line, "[INFO]") {
 		title := strings.TrimSpace(line[len("[INFO]"):])
-		p.builder.WriteString("<h1 class=\"block-title\">")
+		p.builder.WriteString("<div class=block-title><h1>")
 		p.builder.WriteString(title)
-		p.builder.WriteString("</h1>")
+		p.builder.WriteString("</h1></div>")
 		return true
 	} else {
 		return p.parser.Next(line)

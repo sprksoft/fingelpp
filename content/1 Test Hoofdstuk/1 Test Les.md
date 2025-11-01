@@ -6,6 +6,13 @@
 > belangrijke informatie. (wordt automatisch toegevoegd aan de theorie tab?)
 
 > [INFO] Kennis 2
+> blokjes test **bold** _italic_
+>
+> - eerste item
+> - tweede item
+> - **ik ben bold**
+
+> [INFO] Kennis 2
 > in de info blokjes runnen we de finsyn parser terug dus dit zou normaal een lijst moeten zijn
 >
 > - eerste item

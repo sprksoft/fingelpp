@@ -1,19 +1,5 @@
 # Test les
 
-// opgelet met syntax te verzinnen want markdown formatter haalt soms dingen weg
-
-> [INFO] Kennis
-> belangrijke informatie. (wordt automatisch toegevoegd aan de theorie tab?)
-
-> [INFO] Kennis 2
-> in de info blokjes runnen we de finsyn parser terug dus dit zou normaal een lijst moeten zijn
->
-> - eerste item
-> - tweede item
->   hier gaan we een 2de kennis blokje nesten (wordt niet gebruikt waarschijnlijk ma das grappig want da kan)
->   > [INFO] Nested kennis
->   > wow ik ben genest
-
 > [EX] Test oef
 > Ik ben een test oef (automatisch toegevoegd aan oefenen tab?)
 >
@@ -27,6 +13,12 @@
 > Comma getal test Vul hier 0,5 in @[num](0.5)
 > Breuk getal test Vul hier 1/2 in @[num](1/2)
 > 1/3 in @[num](1/3)
+
+> [EX] multi exer
+> input: @(input)
+>
+> @[o] juist
+> @[x] fout
 
 ik ben een paragraaf
 met een enter er in zelfs

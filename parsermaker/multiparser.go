@@ -67,5 +67,6 @@ func (p *MultiParser) Next(line string) bool {
 func (p *MultiParser) Finalize() {
 	if p.curParser != nil {
 		p.curParser.Finalize()
+		p.curParser = nil
 	}
 }
