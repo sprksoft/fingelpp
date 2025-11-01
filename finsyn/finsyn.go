@@ -15,7 +15,7 @@ func ParseFinSyn(mdText string) template.HTML {
 	parser.Init()
 
 	for i, line := range lines {
-		line, _, _ = strings.Cut(line, "//") // strip comments
+		line, _, _ = strings.Cut(line, "// ") // strip comments
 
 		if !parser.Next(line) {
 			log.Errorf("Failed to parse insyn on line %v: %v\n", i+1, line)

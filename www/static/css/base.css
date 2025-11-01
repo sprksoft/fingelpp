@@ -20,6 +20,17 @@ html {
   background: var(--html-bg);
 }
 
+a {
+  color: var(--color-accent);
+  font-weight: bold;
+
+  text-decoration: none;
+}
+a:hover {
+  text-decoration: underline;
+  text-decoration-thickness: 2px;
+}
+
 body {
   margin: 0px;
   box-sizing: border-box;
