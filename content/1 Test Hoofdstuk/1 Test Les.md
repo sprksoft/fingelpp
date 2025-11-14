@@ -3,6 +3,7 @@
 // opgelet met syntax te verzinnen want markdown formatter haalt soms dingen weg
 
 [ik ben een link naar google](https://google.com)
+paragraaf
 
 > [INFO] Kennis
 > belangrijke informatie. (wordt automatisch toegevoegd aan de theorie tab?)

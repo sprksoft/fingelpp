@@ -4,14 +4,11 @@ import (
 	"fingelpp/parsermaker"
 	"regexp"
 	"strings"
-
-	"github.com/charmbracelet/log"
 )
 
 var exerRe = regexp.MustCompile(`@(\[[a-z]+\])?\(([^()\n]*)\)`) // @[text](value)
 
 func exerStyler(s string) string {
-	s = BasicStyler(s)
 	s = exerRe.ReplaceAllStringFunc(s, func(s string) string {
 		inputType := "text"
 		s = strings.TrimSpace(s)
@@ -27,6 +24,7 @@ func exerStyler(s string) string {
 
 		return "<input autocomplete=no class=\"exr\" data-type=" + inputType + " type=\"text\" data-awnser=\"" + awnser + "\">"
 	})
+	s = BasicStyler(s)
 	return s
 }
 
@@ -53,7 +51,6 @@ func (*ExersiseParser) Wanted(line string) bool {
 }
 
 func (p *ExersiseParser) Init() {
-	log.Info("exr init")
 	p.builder.WriteString("<section class=\"block exercise\">")
 	p.parser.Init()
 }
@@ -78,7 +75,6 @@ func (p *ExersiseParser) Next(line string) bool {
 }
 
 func (p *ExersiseParser) Finalize() {
-	log.Info("exr finalize")
 	p.parser.Finalize()
 	p.builder.WriteString("</section>")
 }
@@ -94,7 +90,6 @@ func (*multipleChoiceParser) Wanted(line string) bool {
 
 func (p *multipleChoiceParser) Init() {
 	p.builder.WriteString("<div class=\"exr-multiplechoice\"><ul>")
-	log.Info("mc init")
 }
 
 func (p *multipleChoiceParser) Next(line string) bool {
@@ -122,7 +117,6 @@ func (p *multipleChoiceParser) Next(line string) bool {
 }
 
 func (p *multipleChoiceParser) Finalize() {
-	log.Info("mc finalize")
 	p.builder.WriteString("</ul>")
 	p.builder.WriteString("<button>check</button>")
 	p.builder.WriteString("</div>")
