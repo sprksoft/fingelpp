@@ -24,12 +24,18 @@ if (DEBUG) {
   setInterval(reloadCSS, refreshRate);
 }
 
+function calcScore(inputCount, correctCount) {
+  if (inputCount === 0){
+    return "";
+  }
+  return correctCount + "/" + inputCount + " " + Math.floor((correctCount / inputCount) * 100) + "%";
+}
+
 function updateScore(exerciseEl) {
   const inputCount = exerciseEl.querySelectorAll("input").length;
   const correctCount = exerciseEl.querySelectorAll(".correct").length;
 
-  console.log(inputCount, correctCount);
-  exerciseEl.querySelector(".score").innerText = correctCount + "/" + inputCount + " " + Math.floor((correctCount / inputCount) * 100) + "%";
+  exerciseEl.querySelector(".score").innerText = calcScore(inputCount, correctCount);
 }
 
 
