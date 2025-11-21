@@ -26,12 +26,14 @@ Er zijn verschillende soorten rekeningen.
 
 > [EX] Soorten rekeningen
 > Je geeft je geld aan de bank en dit brengt intrest op. De hoogte van de intrest hangt af van hoe lang je het geld vast zet.
+>
 > @[o] termijnrekening
 > @[x] kasbon
 > @[x] spaarrekening
 >
 > [EX] Soorten rekeningen
 > Je leent geld aan je bank voor een bepaalde periode. Je krijgt op vaste tijdstippen intrest en op het einde van de looptijd krijg je het geld terug.
+>
 > @[x] termijnrekening
 > @[o] kasbon
 > @[x] spaarrekening
