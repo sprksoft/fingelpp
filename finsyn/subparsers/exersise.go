@@ -2,7 +2,9 @@ package subparsers
 
 import (
 	"fingelpp/parsermaker"
+	"math/rand/v2"
 	"regexp"
+	"strconv"
 	"strings"
 )
 
@@ -35,7 +37,7 @@ type ExersiseParser struct {
 
 func NewExersizeParser(builder *strings.Builder) *ExersiseParser {
 	parser := parsermaker.NewMultiParser(builder, []parsermaker.Parser{
-		&multipleChoiceParser{builder: builder, styler: BasicStyler},
+		&multipleChoiceParser{builder: builder, styler: BasicStyler, checkboxStyle: CheckboxStyleUnknown},
 		NewListParser(builder),
 		NewParagraphParserWithStyler(builder, exerStyler),
 	})
@@ -71,7 +73,6 @@ func (p *ExersiseParser) Next(line string) bool {
 	} else {
 		return p.parser.Next(line)
 	}
-
 }
 
 func (p *ExersiseParser) Finalize() {
@@ -79,31 +80,51 @@ func (p *ExersiseParser) Finalize() {
 	p.builder.WriteString("</section>")
 }
 
+type CheckboxStyle int
+
+const (
+	CheckboxStyleUnknown  CheckboxStyle = 0
+	CheckboxStyleMultiple CheckboxStyle = 1
+	CheckboxStyleSingle   CheckboxStyle = 2
+)
+
 type multipleChoiceParser struct {
-	builder *strings.Builder
-	styler  parsermaker.InlineStyler
+	builder       *strings.Builder
+	styler        parsermaker.InlineStyler
+	checkboxStyle CheckboxStyle
+	name          string
 }
 
 func (*multipleChoiceParser) Wanted(line string) bool {
-	return strings.HasPrefix(line, "@[x]") || strings.HasPrefix(line, "@[o]")
+	return strings.HasPrefix(line, "@[x]") || strings.HasPrefix(line, "@[o]") || strings.HasPrefix(line, "@(x)") || strings.HasPrefix(line, "@(o)")
 }
 
 func (p *multipleChoiceParser) Init() {
 	p.builder.WriteString("<div class=\"exr-multiplechoice\"><ul>")
+	p.name = strconv.Itoa(rand.Int())
 }
 
 func (p *multipleChoiceParser) Next(line string) bool {
-
-	var awnser bool
-	if strings.HasPrefix(line, "@[x]") {
-		awnser = false
-	} else if strings.HasPrefix(line, "@[o]") {
-		awnser = true
-	} else {
+	if !p.Wanted(line) {
 		return false
 	}
+	if strings.HasPrefix(line, "@(") {
+		p.checkboxStyle = CheckboxStyleSingle
+	} else if strings.HasPrefix(line, "@[") {
+		p.checkboxStyle = CheckboxStyleMultiple
+	}
+	awnser := line[2] == 'o'
 
-	p.builder.WriteString("<li><label><input type=checkbox data-awnser=")
+	p.builder.WriteString("<li><label><input type=")
+	switch p.checkboxStyle {
+	case CheckboxStyleSingle:
+		p.builder.WriteString("radio")
+	case CheckboxStyleMultiple:
+		p.builder.WriteString("checkbox")
+	}
+	p.builder.WriteString(" name=")
+	p.builder.WriteString(p.name)
+	p.builder.WriteString(" data-awnser=")
 	if awnser {
 		p.builder.WriteString("true")
 	} else {

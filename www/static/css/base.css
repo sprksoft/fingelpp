@@ -208,13 +208,14 @@ p {
   border-color: var(--color-exr-hover);
 }
 
-.exr-multiplechoice li.correct,
+.show-awnsers li:has(input[data-awnser="true"]),
 .correct {
   color: var(--color-correct);
   border-color: var(--color-correct);
   font-weight: bold;
 }
 
+.show-awnsers li:has(input[data-awnser="false"]),
 .exr-multiplechoice li.wrong,
 .wrong {
   color: var(--color-wrong);

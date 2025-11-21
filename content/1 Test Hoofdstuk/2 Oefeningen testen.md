@@ -17,8 +17,8 @@
 > [EX] multi exer
 > input: @(input)
 >
-> @[o] juist
-> @[x] fout
+> @(o) juist
+> @(x) fout
 
 ik ben een paragraaf
 met een enter er in zelfs
