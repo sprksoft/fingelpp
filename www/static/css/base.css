@@ -1,18 +1,52 @@
-html {
-  --color-accent: #aa8fff;
-  --color-text: #ffffff;
-  --color-glow: color-mix(in oklch, 40% var(--color-accent), #ffffff);
-  --bg: linear-gradient(-10deg, #aa8fff10, #aa8fff90);
-  --color-bg-border: var(--color-accent);
-  --html-bg: #110d1a;
-
-  --color-correct: #497e49;
-  --color-wrong: #ac3638;
-
-  --color-exr-bg: #ffffff;
-  --color-exr-border: #000000;
-  --color-exr-border-hover: var(--color-accent);
+:root {
+  --red-000: oklch(0.3012 0.0445 15);
+  --red-100: oklch(0.38 0.09 15);
+  --red-600: oklch(0.78 0.14 15);
+  --red-700: oklch(0.88 0.08 15);
+  --turquoise-100: oklch(0.36 0.09 180);
+  --turquoise-600: oklch(0.74 0.14 180);
+  --turquoise-700: oklch(0.86 0.08 180);
+  --steel-000: oklch(0.2982 0.0412 244);
+  --steel-100: oklch(0.37 0.09 244);
+  --steel-600: oklch(0.76 0.14 244);
+  --steel-700: oklch(0.87 0.08 244);
+  --fuchsia-100: oklch(0.38 0.09 320);
+  --fuchsia-600: oklch(0.78 0.14 320);
+  --fuchsia-700: oklch(0.88 0.08 320);
+  --bg-100: oklch(0.18 0.01 244);
+  --bg-200: oklch(0.2 0.01 244);
+  --bg-300: oklch(0.24 0.01 244);
+  --bg-500: oklch(0.31 0.01 244);
 }
+
+html {
+  --color-accent: var(--fuchsia-100);
+  --color-text: oklch(0.9214 0.0159 243.31);
+  --color-glow: color-mix(in oklch, 40% var(--color-accent), #ffffff);
+  --bg: linear-gradient(-10deg, var(--bg-200), var(--bg-300));
+  --color-bg-border: var(--color-accent);
+  --html-bg: linear-gradient(160deg, var(--bg-100), var(--bg-200));
+
+  --color-correct: var(--turquoise-600);
+  --color-wrong: var(--red-600);
+
+  --color-exr-opt-bg: var(--bg-500);
+  --color-exr-opt-border: var(--steel-600);
+  --color-exr-opt-border-hover: var(--color-accent);
+}
+
+.info {
+  --block-border-color: var(--steel-100);
+  --block-bg-color: var(--steel-000);
+  --block-title-color: var(--steel-700);
+}
+
+.exercise {
+  --block-border-color: var(--red-100);
+  --block-bg-color: var(--red-000);
+  --block-title-color: var(--red-700);
+}
+
 html {
   font-family: "Montserrat", sans-serif;
   color: var(--color-text);
@@ -48,7 +82,7 @@ main {
   align-self: center;
   background: var(--bg);
   padding: 0.5rem 1rem;
-  border: 2px solid var(--color-bg-border);
+  border: 1px solid var(--color-bg-border);
   border-radius: 2.5rem;
 }
 
@@ -56,19 +90,13 @@ main {
   outline: solid 2px var(--color-accent);
 }
 
-.info {
-  --block-border-color: #497e49;
-  --block-bg-color: #61b761;
-}
-
-.exercise {
-  --block-border-color: #ac3638;
-  --block-bg-color: #dd565a;
-}
-
 h2.chapter {
   padding: 0.75rem;
   border-radius: 1rem;
+}
+
+.lesson-name {
+  color: var(--fuchsia-700);
 }
 
 li.lesson {
@@ -103,19 +131,20 @@ nav a {
   padding: 0.2rem 1rem;
   margin: 0px 0.5rem;
   border-radius: 1000px;
-  color: var(--color-accent);
+  color: var(--fuchsia-600);
   text-decoration: none;
   display: block;
   font-size: 1.3rem;
   font-weight: 600;
-
-  transition:
-    transform 0.2s,
-    box-shadow 0.3s;
+  transition: transform 0.2s, box-shadow 0.3s;
 }
+
+nav a:last-of-type {
+  color: var(--fuchsia-700);
+}
+
 nav a:hover {
-  box-shadow: 0px 0px 8px var(--color-glow);
-  transform: scale(1.02);
+  transform: scale(1.01);
 }
 
 nav span {
@@ -141,35 +170,31 @@ p {
 .block {
   padding-top: 0px;
   margin-bottom: 1rem;
-  background: var(--block-bg-color);
-  border: solid 2px var(--block-border-color);
+  border: solid 1px var(--block-border-color);
   border-radius: 1.3rem;
   overflow: clip;
   margin-left: 0.5rem;
-
+  background: var(--block-bg-color);
   box-shadow: 2px 2px 10px #000000aa;
 }
 
 .block > .block-title {
   padding: 0.4rem 1rem;
-  background: linear-gradient(
-    160deg,
-    var(--block-border-color),
-    var(--block-bg-color)
-  );
 
   box-shadow: 0px 2px 5px #00000050;
-  border-bottom: 2px solid var(--block-border-color);
+  border-bottom: 1px solid var(--bg-500);
   display: flex;
   flex-direction: row;
 }
+
 .block > .block-title h1 {
-  color: #ffffff;
+  color: var(--block-title-color);
   margin: 0px;
   font-size: 1.2rem;
   font-weight: bold;
   flex-grow: 100;
 }
+
 .block > .block-title .score {
   color: #d2d2d2;
   font-weight: bold;
@@ -182,25 +207,21 @@ p {
 
 .exr,
 .exr-multiplechoice li {
-  border: 2px solid var(--color-exr-border);
+  border: 1px solid var(--color-exr-opt-border);
   border-radius: 10000px;
   padding: 0.2rem 0.8rem;
   margin: 0.2rem;
-
   box-shadow: 1px 2px 2px #00000070;
-
-  background: var(--color-exr-bg);
-  color: #000000;
-
-  transition:
-    transform 0.2s,
-    border-color 0.3s;
+  background: var(--color-exr-opt-bg);
+  color: var(--color-text);
+  transition: transform 0.2s, border-color 0.3s;
 }
 
 .exr-multiplechoice li:hover,
 .exr:hover {
   border-color: var(--color-exr-hover);
-  transform: scale(1.01);
+  transform: scale(1.001);
+  cursor: pointer;
 }
 
 .exr:focus {
@@ -231,4 +252,8 @@ p {
 
 .exr-multiplechoice label {
   display: block;
+}
+
+.exr-multiplechoice label {
+  cursor: pointer;
 }
