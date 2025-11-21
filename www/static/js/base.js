@@ -33,7 +33,8 @@ function calcScore(inputCount, correctCount) {
 
 function updateScore(exerciseEl) {
   const inputCount = exerciseEl.querySelectorAll("input").length;
-  const correctCount = exerciseEl.querySelectorAll(".correct").length;
+  const correctCount = exerciseEl.querySelectorAll("input[data-correct=true]").length
+  + exerciseEl.querySelectorAll(".correct").length;
 
   exerciseEl.querySelector(".score").innerText = calcScore(inputCount, correctCount);
 }
@@ -98,15 +99,10 @@ $(".exr").each(function(_) {
 })
 
 function checkMultipleChoice(exrEl) {
+  exrEl.classList.add("show-awnsers")
   for (const el of exrEl.querySelectorAll("li")) {
     const inputEl = el.querySelector("input");
-    if (String(inputEl.checked) == inputEl.dataset.awnser) {
-      el.classList.add("correct");
-      el.classList.remove("wrong");
-    } else {
-      el.classList.add("wrong");
-      el.classList.remove("correct");
-    }
+    inputEl.dataset.correct = inputEl.dataset.awnser === String(inputEl.checked)
   }
 }
 
