@@ -1,65 +1,80 @@
 :root {
-  --red-000: oklch(0.3012 0.0445 15);
-  --red-100: oklch(0.38 0.09 15);
-  --red-600: oklch(0.78 0.14 15);
-  --red-700: oklch(0.88 0.08 15);
+  --red-100: oklch(0.38 0.09 7);
+  --red-600: oklch(0.7 0.1 7);
+  --red-700: oklch(0.88 0.08 7);
+  --red-800: oklch(0.93 0.04 7);
+
   --turquoise-100: oklch(0.36 0.09 180);
   --turquoise-600: oklch(0.74 0.14 180);
   --turquoise-700: oklch(0.86 0.08 180);
-  --steel-000: oklch(0.2982 0.0412 244);
-  --steel-100: oklch(0.37 0.09 244);
-  --steel-600: oklch(0.76 0.14 244);
-  --steel-700: oklch(0.87 0.08 244);
-  --fuchsia-100: oklch(0.38 0.09 320);
-  --fuchsia-600: oklch(0.78 0.14 320);
-  --fuchsia-700: oklch(0.88 0.08 320);
-  --bg-100: oklch(0.18 0.01 244);
-  --bg-200: oklch(0.2 0.01 244);
-  --bg-300: oklch(0.24 0.01 244);
-  --bg-500: oklch(0.31 0.01 244);
+  --turquoise-800: oklch(0.92 0.04 180);
+
+  --steel-000: oklch(0.28 0.03 265);
+  --steel-050: oklch(0.35 0.03 265);
+  --steel-100: oklch(0.38 0.09 265);
+  --steel-600: oklch(0.77 0.13 265);
+  --steel-700: oklch(0.87 0.07 265);
+  --steel-800: oklch(0.92 0.04 265);
+
+  --fuchsia-100: oklch(0.38 0.09 280);
+  --fuchsia-600: oklch(0.78 0.14 280);
+  --fuchsia-700: oklch(0.88 0.08 280);
+  --fuchsia-800: oklch(0.92 0.04 280);
+
+  --bg-100: oklch(0.18 0.01 265);
+  --bg-200: oklch(0.2 0.01 265);
+  --bg-300: oklch(0.24 0.01 265);
+  --bg-500: oklch(0.31 0.01 265);
+}
+
+* {
+  font-family: "Montserrat", "sans-serif" !important;
 }
 
 html {
   --color-accent: var(--fuchsia-100);
   --color-text: oklch(0.9214 0.0159 243.31);
-  --color-glow: color-mix(in oklch, 40% var(--color-accent), #ffffff);
   --bg: linear-gradient(-10deg, var(--bg-200), var(--bg-300));
   --color-bg-border: var(--color-accent);
   --html-bg: linear-gradient(160deg, var(--bg-100), var(--bg-200));
+  --shadow-color: oklch(0.1543 0 0 / 80%);
 
   --color-correct: var(--turquoise-600);
   --color-wrong: var(--red-600);
+}
 
-  --color-exr-opt-bg: var(--bg-500);
-  --color-exr-opt-border: var(--steel-600);
-  --color-exr-opt-border-hover: var(--color-accent);
+::selection {
+  background-color: oklch(0.7 0.03 260 / 30%);
 }
 
 .info {
-  --block-border-color: var(--steel-100);
-  --block-bg-color: var(--steel-000);
-  --block-title-color: var(--steel-700);
+  --block-title-border-color: var(--steel-100);
+  --title-bg: var(--steel-100);
+  --block-title-color: var(--steel-800);
 }
 
 .exercise {
-  --block-border-color: var(--red-100);
-  --block-bg-color: var(--red-000);
-  --block-title-color: var(--red-700);
+  --block-title-border-color: var(--fuchsia-100);
+  --title-bg: var(--fuchsia-100);
+  --block-title-color: var(--fuchsia-800);
+  --block-score-color: var(--fuchsia-700);
 }
 
 html {
-  font-family: "Montserrat", sans-serif;
   color: var(--color-text);
   width: 100%;
+  overflow-x: hidden;
   background: var(--html-bg);
+  min-height: 100%;
+  scrollbar-color: var(--bg-500) var(--bg-200);
 }
 
 a {
-  color: var(--color-accent);
+  color: var(--fuchsia-600);
   font-weight: bold;
-
   text-decoration: none;
 }
+
 a:hover {
   text-decoration: underline;
   text-decoration-thickness: 2px;
@@ -78,21 +93,36 @@ body {
 main {
   box-sizing: border-box;
   width: 100%;
-  max-width: 80rem;
+  max-width: 55rem;
   align-self: center;
   background: var(--bg);
-  padding: 0.5rem 1rem;
-  border: 1px solid var(--color-bg-border);
+  padding: 0rem 1rem;
+  border: 1px solid var(--bg-500);
+  box-shadow: 0px 0px 3px 0px var(--shadow-color) inset;
   border-radius: 2.5rem;
+  margin: 6rem 0rem;
 }
 
-*:focus {
-  outline: solid 2px var(--color-accent);
+header:has(.main-title) + main {
+  margin-top: 1rem;
+}
+
+.main-title {
+  text-align: center;
+  font-size: 3rem;
 }
 
 h2.chapter {
   padding: 0.75rem;
   border-radius: 1rem;
+}
+
+h2.chapter:not(:first-child) {
+  margin-top: 0.5rem;
+}
+
+main > h2 + ul:not(:last-child) {
+  border-bottom: 1px solid var(--bg-500);
 }
 
 .lesson-name {
@@ -106,30 +136,34 @@ li.lesson {
 }
 
 .lesson a {
-  color: var(--color-accent);
+  color: var(--fuchsia-700);
   text-decoration: none;
   font-size: 1.3rem;
   font-weight: 600;
 }
 
 nav {
-  width: 100%;
+  width: fit-content;
+  border-radius: 10000px;
+  position: fixed;
   margin: 1rem 0rem;
-  padding: 1rem 0rem;
+  z-index: 100000;
   display: flex;
   flex-direction: row;
+  gap: 1rem;
 }
 
-nav a:hover {
+a:hover {
   text-decoration: underline;
   text-decoration-thickness: 2px;
 }
 
 nav a {
-  background: var(--bg);
-  border: 2px solid var(--color-bg-border);
+  background: oklch(0.31 0.01 265 / 50%);
+  border: 2px solid var(--fuchsia-600);
+  backdrop-filter: blur(20px);
+  box-shadow: 0px 2px 10px 2px var(--shadow-color);
   padding: 0.2rem 1rem;
-  margin: 0px 0.5rem;
   border-radius: 1000px;
   color: var(--fuchsia-600);
   text-decoration: none;
@@ -147,11 +181,15 @@ nav a:hover {
   transform: scale(1.01);
 }
 
+nav a:active {
+  transform: scale(0.95);
+}
+
 nav span {
   font-size: 1.3rem;
   font-weight: 800;
-  color: var(--color-accent);
-  text-shadow: 0px 0px 2px var(--color-accent);
+  color: var(--fuchsia-600);
+  text-shadow: 0px 0px 5px var(--shadow-color);
   align-content: center;
 }
 
@@ -160,31 +198,54 @@ p {
 }
 
 .lesson:target {
-  border: solid var(--color-accent) 3px;
+  border: solid var(--fuchsia-600) 3px;
 }
 
 .chapter:target {
-  border: solid var(--color-accent) 3px;
+  border: solid var(--fuchsia-600) 3px;
 }
 
 .block {
   padding-top: 0px;
   margin-bottom: 1rem;
-  border: solid 1px var(--block-border-color);
-  border-radius: 1.3rem;
+  border-radius: 1.5rem;
   overflow: clip;
-  margin-left: 0.5rem;
-  background: var(--block-bg-color);
-  box-shadow: 2px 2px 10px #000000aa;
+  background: linear-gradient(0deg, var(--steel-000), var(--steel-050));
+  box-shadow: 0px 5px 30px -10px var(--shadow-color);
+  contain: content;
+  margin-top: 2rem;
+  position: relative;
+  z-index: 2;
+}
+
+.block::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: 1.5rem;
+  box-shadow: 0px 0px 10px 0px var(--shadow-color) inset;
+  pointer-events: none;
+  z-index: 1;
 }
 
 .block > .block-title {
-  padding: 0.4rem 1rem;
-
-  box-shadow: 0px 2px 5px #00000050;
-  border-bottom: 1px solid var(--bg-500);
+  padding: 0.7rem 1rem;
+  padding-top: 0.9rem;
+  box-shadow: 0px 0px 4px 0px var(--shadow-color);
+  background: var(--title-bg);
+  border-bottom: 0.5px solid var(--block-title-border-color);
   display: flex;
   flex-direction: row;
+  position: relative;
+}
+
+.block > .block-title:not(:first-child) {
+  margin-top: 1rem;
+  border-top: 1px solid var(--bg-500);
+}
+
+.block > *:last-child {
+  margin-bottom: 1.5rem;
 }
 
 .block > .block-title h1 {
@@ -196,44 +257,69 @@ p {
 }
 
 .block > .block-title .score {
-  color: #d2d2d2;
+  color: var(--block-score-color);
   font-weight: bold;
   align-content: center;
   font-size: 0.9rem;
   margin: 0rem 0.2rem;
 }
 
+.block p {
+  margin: 1rem;
+}
+
 /* EXERCISES */
 
 .exr,
 .exr-multiplechoice li {
-  border: 1px solid var(--color-exr-opt-border);
+  outline: 1px solid var(--fuchsia-600);
   border-radius: 10000px;
-  padding: 0.2rem 0.8rem;
+  border: none;
   margin: 0.2rem;
-  box-shadow: 1px 2px 2px #00000070;
-  background: var(--color-exr-opt-bg);
+
+  background: var(--fuchsia-100);
   color: var(--color-text);
-  transition: transform 0.2s, border-color 0.3s;
+  transition: transform 0.1s;
 }
 
 .exr-multiplechoice li:hover,
 .exr:hover {
-  border-color: var(--color-exr-hover);
+  outline: 2px solid var(--fuchsia-700);
+  border-width: 2px;
   transform: scale(1.001);
   cursor: pointer;
 }
 
-.exr:focus {
-  transform: scale(1.05);
-  border-color: var(--color-exr-hover);
+.exr-multiplechoice label {
+  padding: 0.2rem 0.8rem;
+}
+
+.exr-multiplechoice button {
+  margin-left: 1rem;
+  appearance: none;
+  border-radius: 0.75rem;
+  padding: 0.5rem 1rem;
+  font-weight: bold;
+  color: var(--color-text);
+  background: var(--fuchsia-100);
+  border: 2px solid var(--fuchsia-600);
+  transition: transform 0.1s;
+  font-size: 1rem;
+}
+
+.exr-multiplechoice button:hover {
+  cursor: pointer;
+  transform: scale(1.025);
+}
+
+.exr-multiplechoice button:active {
+  transform: scale(0.95);
 }
 
 .show-awnsers li:has(input[data-awnser="true"]),
 .correct {
   color: var(--color-correct);
   border-color: var(--color-correct);
-  font-weight: bold;
 }
 
 .show-awnsers li:has(input[data-awnser="false"]),
@@ -241,20 +327,70 @@ p {
 .wrong {
   color: var(--color-wrong);
   border-color: var(--color-wrong);
+}
+
+.show-awnsers li:has(input[data-awnser="true"]) input:checked {
+  background-color: var(--color-correct);
+}
+
+.show-awnsers li:has(input[data-awnser="false"]) input:checked {
+  background-color: var(--color-wrong);
+}
+
+.show-awnsers label:has(input[type="checkbox"]),
+.show-awnsers label:has(input[type="radio"]) {
   font-weight: bold;
 }
 
 .exr-multiplechoice ul {
   display: flex;
   flex-direction: column;
+  gap: 0.25rem;
   list-style: none;
   padding: 0px;
+  margin-left: 1rem;
+  margin-right: 1rem;
 }
 
 .exr-multiplechoice label {
-  display: block;
-}
-
-.exr-multiplechoice label {
+  display: flex;
   cursor: pointer;
+  align-items: center;
+}
+
+.exr-multiplechoice span::selection {
+  background-color: transparent;
+}
+
+.exr-multiplechoice label span {
+  margin-left: 0.25rem;
+}
+
+.exr-multiplechoice input {
+  background: var(--color-text);
+  border-radius: 0.3rem;
+  width: 1.2rem;
+  height: 1.2rem;
+  appearance: none;
+}
+
+.exercise input[type="text"] {
+  appearance: none;
+  padding: 0.5rem 1rem;
+  font-size: 1.2rem;
+  margin-top: 1rem;
+}
+
+.exercise input[type="radio"] {
+  appearance: none;
+  margin: 0.5rem 0rem;
+  border-radius: 10000px;
+}
+
+.exr-multiplechoice input:checked {
+  background: var(--fuchsia-600);
+}
+
+input:active {
+  transform: scale(0.95);
 }

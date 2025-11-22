@@ -30,7 +30,7 @@ Er zijn verschillende soorten rekeningen.
 > @[o] termijnrekening
 > @[x] kasbon
 > @[x] spaarrekening
->
+
 > [EX] Soorten rekeningen
 > Je leent geld aan je bank voor een bepaalde periode. Je krijgt op vaste tijdstippen intrest en op het einde van de looptijd krijg je het geld terug.
 >
