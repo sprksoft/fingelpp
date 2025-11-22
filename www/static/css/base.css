@@ -219,13 +219,19 @@ li.lesson {
   padding: 0.75rem;
   border-radius: 1rem;
   list-style-type: none;
+  display: flex;
+  flex-direction: row;
 }
-
 .lesson a {
   color: var(--fuchsia-700);
   text-decoration: none;
   font-size: 1.3rem;
   font-weight: 600;
+}
+.lesson.last-opened::after {
+  content: "laatst geopened";
+  margin-left: auto;
+  align-self: center;
 }
 
 nav {

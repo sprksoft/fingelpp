@@ -63,7 +63,9 @@ function updateScore(exerciseEl, input = true) {
 
 function updateLastScore(exerciseEl) {
   const score = localStorage.getItem(calcExrId(exerciseEl) + "_lastScore");
-  exerciseEl.querySelector(".score").innerText = "laatste score " + Math.ceil(score) + "%";
+  if (score) {
+    exerciseEl.querySelector(".score").innerText = "laatste score " + Math.ceil(score) + "%";
+  }
 }
 
 

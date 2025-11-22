@@ -11,4 +11,8 @@
   {{ .Lesson.Content }}
   </p>
 </main>
+
+<script>
+  localStorage.setItem("lastOpenedLesson", "{{ .Lesson.Id }}")
+</script>
 {{end}}

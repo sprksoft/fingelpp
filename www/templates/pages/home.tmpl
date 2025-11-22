@@ -12,4 +12,11 @@
   </ul>
   {{end}}
 </main>
+
+<script>
+  const lastOpened = document.getElementById("lesson-"+localStorage.getItem("lastOpenedLesson"));
+  if (lastOpened) {
+    lastOpened.classList.add("last-opened");
+  }
+</script>
 {{end}}
