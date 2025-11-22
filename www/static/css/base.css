@@ -40,6 +40,7 @@ html {
   --shadow-color: oklch(0.1543 0 0 / 80%);
 
   --color-correct: var(--turquoise-600);
+  --color-correct-dark: color-mix(in oklch, var(--turquoise-600), #000000 15%);
   --color-wrong: var(--red-600);
 }
 
@@ -58,6 +59,91 @@ html {
   --title-bg: var(--fuchsia-100);
   --block-title-color: var(--fuchsia-800);
   --block-score-color: var(--fuchsia-700);
+}
+.exr-footer {
+  display: flex;
+  flex-direction: column;
+}
+
+.score-line {
+  margin: 1em 1em;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+.exr-footer .score {
+  font-weight: bold;
+  color: var(--color-correct);
+}
+.exr-footer .score-bar {
+  display: block;
+  width: 10em;
+  height: 1em;
+  border-radius: 10000px;
+  background: var(--color-wrong);
+  margin-left: 0.5em;
+  margin-right: 0.2em;
+}
+.exr-footer .score-bar .fill {
+  content: " ";
+  display: block;
+  height: 100%;
+  border-radius: 10000px;
+  background: repeating-linear-gradient(
+    45deg,
+    var(--color-correct),
+    var(--color-correct) 10px,
+    var(--color-correct-dark) 10px,
+    var(--color-correct-dark) 20px
+  );
+  transition: width 0.5s ease;
+}
+.exr-footer .star {
+  width: 1.5em;
+  color: var(--color-wrong);
+  transition: width 1s ease;
+}
+.exr-footer .star.fully-correct {
+  animation: collectStar 1s ease forwards;
+}
+@keyframes collectStar {
+  0% {
+    transform: scale(100%);
+    filter: brightness(100%);
+    color: var(--color-wrong);
+  }
+  20% {
+    color: var(--color-correct);
+    transform: scale(60%);
+    filter: brightness(120%);
+  }
+  60% {
+    transform: scale(200%);
+    filter: brightness(130%);
+  }
+  100% {
+    filter: brightness(100%);
+    color: var(--color-correct);
+    transform: scale(100%);
+  }
+}
+
+.car-buttons {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5em;
+}
+.car-buttons button {
+  border: 1px solid var(--fuchsia-600);
+  border-radius: 100000px;
+  background: var(--color-bg-border);
+  width: 1.5em;
+  height: 1.5em;
+}
+.car-buttons button.active {
+  border: 2px solid var(--fuchsia-700);
 }
 
 html {
@@ -170,7 +256,9 @@ nav a {
   display: block;
   font-size: 1.3rem;
   font-weight: 600;
-  transition: transform 0.2s, box-shadow 0.3s;
+  transition:
+    transform 0.2s,
+    box-shadow 0.3s;
 }
 
 nav a:last-of-type {
@@ -283,7 +371,8 @@ p {
 }
 
 .exr-multiplechoice li:hover,
-.exr:hover {
+.exr:hover,
+button:hover {
   outline: 2px solid var(--fuchsia-700);
   border-width: 2px;
   transform: scale(1.001);

@@ -24,19 +24,46 @@ if (DEBUG) {
   setInterval(reloadCSS, refreshRate);
 }
 
+function calcExrId(exerEl) {
+  let id = 0;
+  for (const el of exerEl.querySelectorAll("input")) {
+    id += el.dataset.awnser.length;
+  }
+  return id;
+}
+
 function calcScore(inputCount, correctCount) {
-  if (inputCount === 0){
+  if (inputCount === 0) {
     return "";
   }
   return correctCount + "/" + inputCount + " " + Math.floor((correctCount / inputCount) * 100) + "%";
 }
 
-function updateScore(exerciseEl) {
+function updateScore(exerciseEl, input = true) {
   const inputCount = exerciseEl.querySelectorAll("input").length;
   const correctCount = exerciseEl.querySelectorAll("input[data-correct=true]").length
-  + exerciseEl.querySelectorAll(".correct").length;
+    + exerciseEl.querySelectorAll(".correct").length;
 
-  exerciseEl.querySelector(".score").innerText = calcScore(inputCount, correctCount);
+  const score = (correctCount / inputCount) * 100;
+  const starEl = exerciseEl.querySelector(".exr-footer .star");
+  if (score == 100) {
+    starEl.classList.add("fully-correct")
+  } else {
+    starEl.classList.remove("fully-correct")
+  }
+
+  exerciseEl.querySelector(".exr-footer .score").innerText = correctCount + "/" + inputCount;
+  exerciseEl.querySelector(".exr-footer .score-bar .fill").style.width = score + "%";
+
+  if (input) {
+    localStorage.setItem(calcExrId(exerciseEl) + "_lastScore", score);
+  }
+  updateLastScore(exerciseEl);
+}
+
+function updateLastScore(exerciseEl) {
+  const score = localStorage.getItem(calcExrId(exerciseEl) + "_lastScore");
+  exerciseEl.querySelector(".score").innerText = "laatste score " + Math.ceil(score) + "%";
 }
 
 
@@ -115,5 +142,5 @@ $(".exercise").on("input", function(_) {
   updateScore(this);
 })
 $(".exercise").each(function(_) {
-  updateScore(this);
+  updateScore(this, false);
 })

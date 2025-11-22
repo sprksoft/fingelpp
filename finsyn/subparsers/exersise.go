@@ -77,6 +77,26 @@ func (p *ExersiseParser) Next(line string) bool {
 
 func (p *ExersiseParser) Finalize() {
 	p.parser.Finalize()
+
+	p.builder.WriteString(`
+	<div class="exr-footer">
+		<div class="score-line">
+			<span class="score"></span>
+			<span class="score-bar">
+				<span class="fill"></span>
+			</span>
+			<svg class="star" version="1.1" viewBox="0 0 75.88 72.259" xmlns="http://www.w3.org/2000/svg">
+			<path d="m65.107 72.59-23.162-12.122-23.116 12.208 4.3709-25.774-18.754-18.212 25.863-3.8077 11.526-23.464 11.614 23.421 25.878 3.7107-18.686 18.283z" fill="currentColor" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"/>
+			</svg>
+		</div>
+		<div class="car-buttons">
+			<button></button>
+			<button></button>
+			<button class="active"></button>
+			<button></button>
+		</div>
+	</div>
+	`)
 	p.builder.WriteString("</section>")
 }
 
