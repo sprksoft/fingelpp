@@ -21,21 +21,26 @@ type Chapter struct {
 
 type LessonManager struct {
 	Chapters []Chapter
+	path     string
 }
 
 func LoadLessons(path string) LessonManager {
+	mgr := LessonManager{Chapters: nil, path: path}
+	mgr.Reload()
+	return mgr
+}
 
-	chapterDirs, err := os.ReadDir(path)
+func (mgr *LessonManager) Reload() {
+	chapterDirs, err := os.ReadDir(mgr.path)
 	if err != nil {
 		panic(err)
 	}
-
-	chapters := []Chapter{}
+	mgr.Chapters = nil
 
 	for chapI, chapDir := range chapterDirs {
 		_, chapName, _ := strings.Cut(chapDir.Name(), " ")
 
-		lessonDirs, err := os.ReadDir(path + "/" + chapDir.Name())
+		lessonDirs, err := os.ReadDir(mgr.path + "/" + chapDir.Name())
 		if err != nil {
 			panic("Failed to read chapter: '" + chapName + "'" + err.Error())
 		}
@@ -45,7 +50,7 @@ func LoadLessons(path string) LessonManager {
 			_, lessonName, _ := strings.Cut(lessonFile.Name(), " ")
 			lessonName = strings.TrimSuffix(lessonName, ".md")
 
-			content, err := os.ReadFile(path + "/" + chapDir.Name() + "/" + lessonFile.Name())
+			content, err := os.ReadFile(mgr.path + "/" + chapDir.Name() + "/" + lessonFile.Name())
 			if err != nil {
 				panic("Failed to read lesson: '" + lessonName + "'" + err.Error())
 			}
@@ -57,11 +62,8 @@ func LoadLessons(path string) LessonManager {
 			lessons = append(lessons, les)
 		}
 
-		chapters = append(chapters, Chapter{Name: chapName, Lessons: lessons})
-
+		mgr.Chapters = append(mgr.Chapters, Chapter{Name: chapName, Lessons: lessons})
 	}
-
-	return LessonManager{Chapters: chapters}
 }
 
 func (mgr *LessonManager) GetChapterById(id uint16) *Chapter {

@@ -45,6 +45,10 @@ func main() {
 		c.HTML(http.StatusOK, "home.tmpl", lessonManager.Chapters)
 	})
 
+	r.GET(("/reload"), func(c *gin.Context) {
+		lessonManager.Reload()
+	})
+
 	r.GET("/lesson/:id", func(c *gin.Context) {
 		id, err := parser.ParseLessonId(c.Param("id"))
 		if err != nil {
