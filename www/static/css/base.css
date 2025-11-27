@@ -11,12 +11,12 @@
 
   --steel-000: oklch(0.28 0.03 265);
   --steel-050: oklch(0.35 0.03 265);
-  --steel-100: oklch(0.38 0.09 265);
+  --steel-100: oklch(50.699% 0.12836 265);
   --steel-600: oklch(0.77 0.13 265);
   --steel-700: oklch(0.87 0.07 265);
   --steel-800: oklch(0.92 0.04 265);
 
-  --fuchsia-100: oklch(0.38 0.09 280);
+  --fuchsia-100: oklch(44.022% 0.14709 280);
   --fuchsia-600: oklch(0.78 0.14 280);
   --fuchsia-700: oklch(0.88 0.08 280);
   --fuchsia-800: oklch(0.92 0.04 280);
@@ -150,7 +150,7 @@ html {
   color: var(--color-text);
   width: 100%;
   overflow-x: hidden;
-  background: var(--html-bg);
+  background: var(--bg-100);
   min-height: 100%;
   scrollbar-color: var(--bg-500) var(--bg-200);
 }
@@ -262,9 +262,7 @@ nav a {
   display: block;
   font-size: 1.3rem;
   font-weight: 600;
-  transition:
-    transform 0.2s,
-    box-shadow 0.3s;
+  transition: transform 0.2s, box-shadow 0.3s;
 }
 
 nav a:last-of-type {
