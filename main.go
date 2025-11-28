@@ -1,10 +1,10 @@
 package main
 
 import (
+	"fingelpp/api"
+	"fingelpp/parser"
 	"net/http"
 	"path/filepath"
-
-	"fingelpp/parser"
 
 	"github.com/gin-contrib/multitemplate"
 	"github.com/gin-gonic/gin"
@@ -66,6 +66,8 @@ func main() {
 
 		c.HTML(http.StatusOK, "lesson.tmpl", gin.H{"Lesson": lesson, "ChapterName": chap.Name, "ChapterId": lesson.Id.ChapterId()})
 	})
+
+	r.POST("/lessons/preview", api.RenderPreview)
 
 	r.Run("localhost:2025")
 

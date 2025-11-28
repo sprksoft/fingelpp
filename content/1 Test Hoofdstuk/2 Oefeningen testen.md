@@ -20,6 +20,15 @@
 > @(o) juist
 > @(x) fout
 
+> [EX] Big multi exer
+>
+> @[x] fout
+> @[o] juist
+> @[o] juist
+> @[o] juist
+> @[x] fout
+> @[x] fout
+
 ik ben een paragraaf
 met een enter er in zelfs
 
