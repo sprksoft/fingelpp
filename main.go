@@ -10,7 +10,7 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
-var lessonManager = parser.LoadLessons("./content")
+var book = parser.LoadBook("./content")
 
 func createHTMLRenderer(rootDir string) multitemplate.Renderer {
 	r := multitemplate.NewRenderer()
@@ -41,12 +41,21 @@ func main() {
 	r.Static("/static", "./www/static")
 
 	r.GET("/", func(c *gin.Context) {
-
-		c.HTML(http.StatusOK, "home.tmpl", lessonManager.Chapters)
+		c.HTML(http.StatusOK, "home.tmpl", book.Chapters)
 	})
 
-	r.GET(("/reload"), func(c *gin.Context) {
-		lessonManager.Reload()
+	r.POST("/lessons/reload", func(c *gin.Context) {
+		book.Reload()
+	})
+
+	r.POST("/lesson/:id/reload", func(c *gin.Context) {
+		id, err := parser.ParseLessonId(c.Param("id"))
+		if err != nil {
+			ReqError(c, http.StatusBadRequest)
+			return
+		}
+
+		book.GetLessonById(id).Reload()
 	})
 
 	r.GET("/lesson/:id", func(c *gin.Context) {
@@ -56,13 +65,13 @@ func main() {
 			return
 		}
 
-		lesson := lessonManager.GetLessonById(id)
+		lesson := book.GetLessonById(id)
 		if lesson == nil {
 			ReqError(c, http.StatusNotFound)
 			return
 		}
 
-		chap := lessonManager.GetChapterById(lesson.Id.ChapterId())
+		chap := book.GetChapterById(lesson.Id.ChapterId())
 
 		c.HTML(http.StatusOK, "lesson.tmpl", gin.H{"Lesson": lesson, "ChapterName": chap.Name, "ChapterId": lesson.Id.ChapterId()})
 	})

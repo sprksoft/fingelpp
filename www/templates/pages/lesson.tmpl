@@ -4,7 +4,7 @@
 <nav>
   <a href="/#chapter-{{ .ChapterId }}">{{ .ChapterName }}</a> <span>&gt;</span> <a href="/#lesson-{{ .Lesson.Id }}">{{ .Lesson.Name }}</a>
 
-  <button onclick="fetch('/reload').then(()=>{location.reload()})">Reload</button>
+  <button onclick="fetch('/lesson/{{ .Lesson.Id }}/reload', { method: 'POST' }).then(()=>{location.reload()})">Reload</button>
 </nav>
 <main>
   <h1 class="lesson-name">{{ .Lesson.Name }}</h1>
