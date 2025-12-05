@@ -5,12 +5,14 @@ import (
 	"fingelpp/parser"
 	"net/http"
 	"path/filepath"
+	"strings"
 
 	"github.com/gin-contrib/multitemplate"
 	"github.com/gin-gonic/gin"
 )
 
 var book = parser.LoadBook("./content")
+var accessFile = LoadAccessFile("access.txt")
 
 func createHTMLRenderer(rootDir string) multitemplate.Renderer {
 	r := multitemplate.NewRenderer()
@@ -31,7 +33,7 @@ func createHTMLRenderer(rootDir string) multitemplate.Renderer {
 	return r
 }
 
-func ReqError(c *gin.Context, code int) {
+func reqError(c *gin.Context, code int) {
 	c.HTML(code, "error.tmpl", code)
 }
 
@@ -45,13 +47,20 @@ func main() {
 	})
 
 	r.POST("/lessons/reload", func(c *gin.Context) {
+		if accessFile.EnforcePermission(c, PermissionEditLesson) {
+			return
+		}
 		book.Reload()
 	})
 
 	r.POST("/lesson/:id/reload", func(c *gin.Context) {
+		if accessFile.EnforcePermission(c, PermissionEditLesson) {
+			return
+		}
+
 		id, err := parser.ParseLessonId(c.Param("id"))
 		if err != nil {
-			ReqError(c, http.StatusBadRequest)
+			reqError(c, http.StatusBadRequest)
 			return
 		}
 
@@ -61,19 +70,40 @@ func main() {
 	r.GET("/lesson/:id", func(c *gin.Context) {
 		id, err := parser.ParseLessonId(c.Param("id"))
 		if err != nil {
-			ReqError(c, http.StatusBadRequest)
+			reqError(c, http.StatusBadRequest)
 			return
 		}
 
 		lesson := book.GetLessonById(id)
 		if lesson == nil {
-			ReqError(c, http.StatusNotFound)
+			reqError(c, http.StatusNotFound)
 			return
 		}
 
+		editPerms := accessFile.HasPermission(c, PermissionEditLesson)
+
 		chap := book.GetChapterById(lesson.Id.ChapterId())
 
-		c.HTML(http.StatusOK, "lesson.tmpl", gin.H{"Lesson": lesson, "ChapterName": chap.Name, "ChapterId": lesson.Id.ChapterId()})
+		c.HTML(http.StatusOK, "lesson.tmpl", gin.H{"Lesson": lesson, "ChapterName": chap.Name, "ChapterId": lesson.Id.ChapterId(), "EditPerms": editPerms})
+	})
+
+	r.GET("/access/key/:key", func(c *gin.Context) {
+		key := c.Param("key")
+		if !accessFile.KeyExist(key) {
+			reqError(c, http.StatusUnauthorized)
+			return
+		}
+		c.SetCookie("AccessKey", key, 100000000, "/", "", false, true)
+		c.Redirect(http.StatusSeeOther, "/")
+	})
+
+	r.GET("/access/permissions", func(c *gin.Context) {
+		perms := accessFile.GetPerms(GetKey(c))
+		var sb strings.Builder
+		for _, perm := range perms {
+			sb.WriteString(string(perm))
+		}
+		c.String(http.StatusOK, sb.String())
 	})
 
 	r.POST("/lessons/preview", api.RenderPreview)
