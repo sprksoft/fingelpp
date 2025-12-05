@@ -78,6 +78,10 @@ func main() {
 
 	r.POST("/lessons/preview", api.RenderPreview)
 
+	r.GET("/lessons/:id/src", func(c *gin.Context) {
+		api.GetLessonSource(c, book)
+	})
+
 	r.Run("localhost:2025")
 
 }

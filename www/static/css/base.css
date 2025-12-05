@@ -80,7 +80,7 @@ html {
   width: 10em;
   height: 1em;
   border-radius: 10000px;
-  background: var(--color-wrong);
+  background: var(--fuchsia-100);
   margin-left: 0.5em;
   margin-right: 0.2em;
 }

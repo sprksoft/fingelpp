@@ -2,16 +2,18 @@ package parser
 
 import (
 	"fingelpp/finsyn"
-	"github.com/charmbracelet/log"
 	"html/template"
 	"os"
 	"strings"
+
+	"github.com/charmbracelet/log"
 )
 
 type Les struct {
 	Name    string
 	Id      LessonId
 	Content template.HTML
+	Src     string
 	path    string
 }
 
@@ -68,6 +70,7 @@ func (les *Les) Reload() {
 		panic("Failed to read lesson: '" + les.Name + "': " + err.Error())
 	}
 	les.Content = finsyn.ParseFinSyn(string(content))
+	les.Src = string(content)
 	log.Infof("Loaded lesson: %s", les.Name)
 }
 
