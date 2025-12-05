@@ -27,6 +27,8 @@ type Book struct {
 	path     string
 }
 
+var CurrentBook *Book = LoadBook("./content")
+
 func LoadBook(path string) *Book {
 	book := Book{Chapters: nil, path: path}
 	book.Reload()
