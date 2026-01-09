@@ -7,7 +7,7 @@
   <h2 class="chapter" id="chapter-{{ $i }}">{{ $chap.Name }}</h2>
   <ul>
     {{ range $chap.Lessons }}
-      <li id="lesson-{{ .Id }}" class="lesson"><a href="/lesson/{{ .Id }}">{{ .Name }}</a></li>
+      <li id="lesson-{{ .Id }}" class="lesson"><a href="/lessons/{{ .Id }}">{{ .Name }}</a></li>
     {{end}}
   </ul>
   {{end}}
