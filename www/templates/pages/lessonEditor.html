@@ -1,0 +1,44 @@
+{{define "title"}}Edit {{ .Lesson.Name }} - Fingel++ {{end}} {{ define "content"
+}}
+<nav>
+  <a href="/#chapter-{{ .ChapterId }}">{{ .ChapterName }}</a> <span>&gt;</span>
+  <a href="/#lesson-{{ .Lesson.Id }}">{{ .Lesson.Name }}</a>
+
+  {{ if .EditPerms }}
+  <button
+    onclick="fetch('/lesson/{{ .Lesson.Id }}/reload', { method: 'POST' }).then(()=>{location.reload()})"
+  >
+    Reload
+  </button>
+  {{ end }}
+  <button
+    class="right-nav-button"
+    onclick="fetch('/lesson/{{ .Lesson.Id }}/delete', {method: 'DELETE'}, ).then(()=>{location.replace('/')})"
+  >
+    Delete
+  </button>
+  <button class="right-nav-button" type="submit" form="lessonMD">Save</button>
+</nav>
+<main>
+  <h1 class="lesson-name">{{ .Lesson.Name }}</h1>
+
+  <div>
+    <div>
+      <form id="lessonMD" action="/lesson/{{ .Lesson.Id }}/save" method="post">
+        <label for="content">Put the lesson content in MD here:</label>
+        <textarea name="content" id="content"></textarea>
+      </form>
+    </div>
+    <div id="lessonPreview"></div>
+  </div>
+  {{ .Lesson.Content }}
+</main>
+
+<script>
+  localStorage.setItem("lastOpenedLesson", "{{ .Lesson.Id }}");
+  await loadContent("{{ Lesson.Id }}");
+    document
+    .getElementById("content")
+    .addEventListener("change", updateLessonPreview);
+</script>
+{{end}}

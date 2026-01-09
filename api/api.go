@@ -75,6 +75,9 @@ func Routes(r *gin.Engine) {
 		GetLessonSource(c)
 	})
 
+	r.POST("/lessons/:id/save", SaveLesson)
+
+	r.DELETE("/lessons/:id/delete", DeleteLesson)
 }
 
 func RenderPreview(c *gin.Context) { //POST   /lessons/preview   # Render markdown to HTML
