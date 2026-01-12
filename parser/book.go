@@ -30,9 +30,9 @@ type Book struct {
 var CurrentBook *Book = LoadBook("./content")
 
 func LoadBook(path string) *Book {
-	book := Book{Chapters: nil, path: path}
+	book := &Book{Chapters: nil, path: path}
 	book.Reload()
-	return &book
+	return book
 }
 
 func (book *Book) Reload() {
@@ -55,10 +55,10 @@ func (book *Book) Reload() {
 			_, lessonName, _ := strings.Cut(lessonFile.Name(), " ")
 			lessonName = strings.TrimSuffix(lessonName, ".md")
 			path := book.path + "/" + chapDir.Name() + "/" + lessonFile.Name()
-			les := Les{Name: lessonName, Id: LessonId{chapter: uint16(chapI), lesson: uint16(i)}, path: path}
+			les := &Les{Name: lessonName, Id: LessonId{chapter: uint16(chapI), lesson: uint16(i)}, path: path}
 			les.Reload()
 
-			lessons = append(lessons, &les)
+			lessons = append(lessons, les)
 		}
 
 		book.Chapters = append(book.Chapters, &Chapter{Name: chapName, Lessons: lessons})
@@ -74,6 +74,18 @@ func (les *Les) Reload() {
 	les.Content = finsyn.ParseFinSyn(string(content))
 	les.Src = string(content)
 	log.Infof("Loaded lesson: %s", les.Name)
+}
+
+func (les *Les) Update(newSrc string) {
+	log.Info("Updating lesson " + les.path)
+	err := os.WriteFile(les.path, []byte(newSrc), 0000)
+	if err != nil {
+		panic("Failed to write lesson")
+	}
+	les.Reload()
+	// les.Src = newSrc
+	// les.Content = finsyn.ParseFinSyn(newSrc)
+	// log.Infof("Content: %s", newSrc)
 }
 
 func (book *Book) GetChapterById(id uint16) *Chapter {

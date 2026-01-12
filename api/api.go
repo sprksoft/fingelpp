@@ -26,7 +26,6 @@ func ReqError(c *gin.Context, code int) {
 }
 
 func Routes(r *gin.Engine) {
-
 	accessFile := access.LoadAccessFile("access.txt")
 
 	r.POST("/lessons/reload", func(c *gin.Context) {
@@ -71,13 +70,28 @@ func Routes(r *gin.Engine) {
 
 	r.POST("/lessons/preview", RenderPreview)
 
-	r.GET("/lessons/:id/src", func(c *gin.Context) {
-		GetLessonSource(c)
-	})
+	r.PUT("/lessons/:id", SaveLesson)
 
-	r.POST("/lessons/:id/save", SaveLesson)
+	r.DELETE("/lessons/:id", DeleteLesson)
+}
 
-	r.DELETE("/lessons/:id/delete", DeleteLesson)
+func SaveLesson(c *gin.Context) {
+	id, err := parser.ParseLessonId(c.Param("id"))
+	if err != nil {
+		ReqError(c, http.StatusBadRequest)
+		return
+	}
+
+	bodyBytes, err := io.ReadAll(c.Request.Body)
+	if err != nil {
+		c.String(http.StatusBadRequest, "Error reading body")
+		return
+	}
+	lesson := parser.CurrentBook.GetLessonById(id)
+	lesson.Update(string(bodyBytes))
+}
+
+func DeleteLesson(c *gin.Context) {
 }
 
 func RenderPreview(c *gin.Context) { //POST   /lessons/preview   # Render markdown to HTML
@@ -88,19 +102,4 @@ func RenderPreview(c *gin.Context) { //POST   /lessons/preview   # Render markdo
 	}
 	parsedBody := string(finsyn.ParseFinSyn(string(bodyBytes)))
 	c.String(http.StatusOK, parsedBody)
-}
-
-func GetLessonSource(c *gin.Context) {
-	id, err := parser.ParseLessonId(c.Param("id"))
-	if err != nil {
-		ReqError(c, http.StatusBadRequest)
-		return
-	}
-	les := parser.CurrentBook.GetLessonById(id)
-
-	if les == nil {
-		ReqError(c, http.StatusNotFound)
-		return
-	}
-	c.String(http.StatusOK, string(les.Src))
 }

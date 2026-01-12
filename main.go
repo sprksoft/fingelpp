@@ -5,8 +5,10 @@ import (
 	"fingelpp/api"
 	"fingelpp/parser"
 	"fingelpp/utils"
+	"html/template"
 	"net/http"
 	"path/filepath"
+	"strings"
 
 	"github.com/gin-contrib/multitemplate"
 	"github.com/gin-gonic/gin"
@@ -16,6 +18,14 @@ var book = parser.LoadBook("./content")
 
 func createHTMLRenderer(rootDir string) multitemplate.Renderer {
 	r := multitemplate.NewRenderer()
+
+	funcMap := template.FuncMap{
+		"nl2br": func(text string) template.HTML {
+			escaped := template.HTMLEscapeString(text)
+			withBreaks := strings.ReplaceAll(escaped, "\n", "<br>")
+			return template.HTML(withBreaks)
+		},
+	}
 
 	globals := []string{rootDir + "/base.tmpl"}
 
@@ -28,7 +38,7 @@ func createHTMLRenderer(rootDir string) multitemplate.Renderer {
 		files := make([]string, len(globals)+1)
 		copy(files, globals)
 		files[len(files)-1] = page
-		r.AddFromFiles(filepath.Base(page), files...)
+		r.AddFromFilesFuncsWithOptions(filepath.Base(page), funcMap, multitemplate.TemplateOptions{}, files...)
 	}
 	return r
 }

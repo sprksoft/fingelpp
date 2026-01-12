@@ -3,12 +3,13 @@
 // opgelet met syntax te verzinnen want markdown formatter haalt soms dingen weg
 
 [ik ben een link naar google](https://google.com)
+
 paragraaf
 
 > [INFO] Kennis
 > belangrijke informatie. (wordt automatisch toegevoegd aan de theorie tab?)
 
-> [INFO] Kennis 2
+> [INFO] Kennis 1
 > blokjes test **bold** _italic_
 >
 > - eerste item
@@ -32,4 +33,4 @@ met een enter er in zelfs
 - appel
 - peer
 - bannaan
-  einde van de lijst (ik ben geen element)
+einde van de lijst (ik ben geen element)

@@ -1,4 +1,4 @@
-{{define "title"}}{{ .Lesson.Name }} - Fingel++ {{end}}
+{{define "title"}}{{ if .EditPerms }}Edit{{ end }} {{ .Lesson.Name }} - Fingel++ {{end}}
 
 {{ define "content" }}
 <nav>
@@ -6,17 +6,36 @@
 
   {{ if .EditPerms }}
   <button onclick="fetch('/lesson/{{ .Lesson.Id }}/reload', { method: 'POST' }).then(()=>{location.reload()})">Reload</button>
+  <button
+    class="right-nav-button"
+    onclick="fetch('/lesson/{{ .Lesson.Id }}/delete', {method: 'DELETE'}, ).then(()=>{location.replace('/')})"
+  >
+    Delete
+  </button>
+  <button class="right-nav-button" onclick="saveLesson('{{ .Lesson.Id }}')">Save</button>
   {{ end }}
 </nav>
 <main>
-  <h1 class="lesson-name">{{ .Lesson.Name }}</h1>
-
-  <p>
-  {{ .Lesson.Content }}
-  </p>
+  {{ if .EditPerms }}
+  <div id="lessonEditor">
+    <label for="LessonSrcCode">Put the lesson content in MD here:</label>
+    <div name="content" contenteditable id="LessonSrcCode">{{ .Lesson.Src | nl2br }}</div>
+  </div>
+  {{ end }}
+  <div id="lesson">
+    <h1 class="lesson-name">{{ .Lesson.Name }}</h1>
+    {{ .Lesson.Content }}
+  </div>
 </main>
 
+{{ end }}
+{{ define "scripts" }}
 <script>
-  localStorage.setItem("lastOpenedLesson", "{{ .Lesson.Id }}")
+  (async ()=> {
+    localStorage.setItem("lastOpenedLesson", "{{ .Lesson.Id }}");
+      document
+      .getElementById("LessonSrcCode")
+      .addEventListener("change", updateLessonPreview);
+  })();
 </script>
-{{end}}
+{{ end }}

@@ -148,11 +148,10 @@ html {
 
 html {
   color: var(--color-text);
-  width: 100%;
-  overflow-x: hidden;
+  height: 100%;
   background: var(--bg-100);
-  min-height: 100%;
   scrollbar-color: var(--bg-500) var(--bg-200);
+  display: flex;
 }
 
 a {
@@ -167,9 +166,8 @@ a:hover {
 }
 
 body {
+  flex-grow: 1;
   margin: 0px;
-  box-sizing: border-box;
-  width: 100vw;
   padding-left: 1rem;
   padding-right: 1rem;
   display: flex;
@@ -177,16 +175,27 @@ body {
 }
 
 main {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+}
+
+main > div {
   box-sizing: border-box;
-  width: 100%;
-  max-width: 55rem;
-  align-self: center;
+  max-width: 50rem;
+  flex-grow:1;
+  overflow: scroll;
   background: var(--bg);
   padding: 0rem 1rem;
   border: 1px solid var(--bg-500);
   box-shadow: 0px 0px 3px 0px var(--shadow-color) inset;
   border-radius: 2.5rem;
-  margin: 6rem 0rem;
+  margin: 0.5rem;
+}
+
+#lessonEditor {
+  display: flex;
+  flex-direction: column;
 }
 
 header:has(.main-title) + main {
@@ -237,7 +246,6 @@ li.lesson {
 nav {
   width: fit-content;
   border-radius: 10000px;
-  position: fixed;
   margin: 1rem 0rem;
   z-index: 100000;
   display: flex;
