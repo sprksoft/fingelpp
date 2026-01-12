@@ -9,6 +9,7 @@ import (
 	"net/http"
 	"strings"
 
+	"github.com/charmbracelet/log"
 	"github.com/gin-gonic/gin"
 )
 
@@ -46,6 +47,7 @@ func Routes(r *gin.Engine) {
 			return
 		}
 
+		log.Info("Reloading a lesson via api call")
 		parser.CurrentBook.GetLessonById(id).Reload()
 	})
 

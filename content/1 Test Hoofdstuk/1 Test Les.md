@@ -4,7 +4,7 @@
 
 [ik ben een link naar google](https://google.com)
 
-paragraaf
+ik ben sibe 
 
 > [INFO] Kennis
 > belangrijke informatie. (wordt automatisch toegevoegd aan de theorie tab?)

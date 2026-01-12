@@ -157,26 +157,3 @@ $(".exercise").on("input", function (_) {
 $(".exercise").each(function (_) {
   updateScore(this, false);
 });
-
-async function updateLessonPreview() {
-  let lessonPreviewElement = document.getElementById("lessonPreview");
-  let lessonMDElement = document.getElementById("lessonMD");
-  let MDContent = lessonMDElement.innerText;
-
-  let lessonPreviewHTML = await fetch("/lessons/preview", {
-    method: "POST",
-    headers: {
-      "Content-Type": "text/plain",
-    },
-    body: MDContent,
-  });
-
-  lessonPreviewElement.innerHTML = lessonPreviewHTML;
-}
-
-async function saveLesson(id) {
-  await fetch("/lessons/"+id, {
-    method: "PUT",
-    body: document.getElementById("LessonSrcCode").innerText,
-  })
-}

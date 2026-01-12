@@ -50,7 +50,7 @@ func (book *Book) Reload() {
 			panic("Failed to read chapter: '" + chapName + "'" + err.Error())
 		}
 
-		lessons := []*Les{}
+		var lessons []*Les
 		for i, lessonFile := range lessonDirs {
 			_, lessonName, _ := strings.Cut(lessonFile.Name(), " ")
 			lessonName = strings.TrimSuffix(lessonName, ".md")
@@ -71,6 +71,7 @@ func (les *Les) Reload() {
 	if err != nil {
 		panic("Failed to read lesson: '" + les.Name + "': " + err.Error())
 	}
+	log.Infof("read Content: %s %s", content, les.path)
 	les.Content = finsyn.ParseFinSyn(string(content))
 	les.Src = string(content)
 	log.Infof("Loaded lesson: %s", les.Name)

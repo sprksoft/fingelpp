@@ -5,10 +5,10 @@
   <a href="/#chapter-{{ .ChapterId }}">{{ .ChapterName }}</a> <span>&gt;</span> <a href="/#lesson-{{ .Lesson.Id }}">{{ .Lesson.Name }}</a>
 
   {{ if .EditPerms }}
-  <button onclick="fetch('/lesson/{{ .Lesson.Id }}/reload', { method: 'POST' }).then(()=>{location.reload()})">Reload</button>
+  <button onclick="fetch('/lessons/{{ .Lesson.Id }}/reload', { method: 'POST' }).then(()=>{location.reload()})">Reload</button>
   <button
     class="right-nav-button"
-    onclick="fetch('/lesson/{{ .Lesson.Id }}/delete', {method: 'DELETE'}, ).then(()=>{location.replace('/')})"
+    onclick="fetch('/lessons/{{ .Lesson.Id }}/delete', {method: 'DELETE'}, ).then(()=>{location.replace('/')})"
   >
     Delete
   </button>
@@ -24,18 +24,25 @@
   {{ end }}
   <div id="lesson">
     <h1 class="lesson-name">{{ .Lesson.Name }}</h1>
+    <div id="lessonContent">
     {{ .Lesson.Content }}
+    </div>
   </div>
 </main>
 
 {{ end }}
 {{ define "scripts" }}
+{{ if .EditPerms }}
+<script src="/static/js/editor.js"></script>
 <script>
   (async ()=> {
-    localStorage.setItem("lastOpenedLesson", "{{ .Lesson.Id }}");
       document
       .getElementById("LessonSrcCode")
       .addEventListener("change", updateLessonPreview);
   })();
+</script>
+{{ end }}
+<script>
+    localStorage.setItem("lastOpenedLesson", "{{ .Lesson.Id }}");
 </script>
 {{ end }}

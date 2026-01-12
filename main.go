@@ -14,8 +14,6 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
-var book = parser.LoadBook("./content")
-
 func createHTMLRenderer(rootDir string) multitemplate.Renderer {
 	r := multitemplate.NewRenderer()
 
@@ -49,7 +47,7 @@ func main() {
 	r.Static("/static", "./www/static")
 
 	r.GET("/", func(c *gin.Context) {
-		c.HTML(http.StatusOK, "home.tmpl", book.Chapters)
+		c.HTML(http.StatusOK, "home.tmpl", parser.CurrentBook.Chapters)
 	})
 
 	r.GET("/lessons/:id", func(c *gin.Context) {
@@ -59,7 +57,7 @@ func main() {
 			return
 		}
 
-		lesson := book.GetLessonById(id)
+		lesson := parser.CurrentBook.GetLessonById(id)
 		if lesson == nil {
 			utils.ReqError(c, http.StatusNotFound)
 			return
@@ -67,7 +65,7 @@ func main() {
 
 		editPerms := access.CurrentAccessFile.HasPermission(c, access.PermissionEditLesson)
 
-		chap := book.GetChapterById(lesson.Id.ChapterId())
+		chap := parser.CurrentBook.GetChapterById(lesson.Id.ChapterId())
 
 		c.HTML(http.StatusOK, "lesson.tmpl", gin.H{"Lesson": lesson, "ChapterName": chap.Name, "ChapterId": lesson.Id.ChapterId(), "EditPerms": editPerms})
 	})
@@ -75,5 +73,4 @@ func main() {
 	api.Routes(r)
 
 	r.Run("localhost:2025")
-
 }

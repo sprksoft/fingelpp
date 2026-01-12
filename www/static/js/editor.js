@@ -1,29 +1,32 @@
-async function updateLessonPreview() {
-  let lessonPreviewElement = document.getElementById("lessonPreview");
-  let lessonMDElement = document.getElementById("lessonMD");
-  let MDContent = lessonMDElement.innerText;
+function getSourceCode() {
+  return document.getElementById("LessonSrcCode").innerText;
+}
 
-  let lessonPreviewHTML = await fetch("/lessons/preview", {
+let previewedSrcCode=getSourceCode();
+
+async function updateLessonPreview() {
+  const srcCode = getSourceCode();
+  if (previewedSrcCode == srcCode) return;
+  const res = await fetch("/lessons/preview", {
     method: "POST",
     headers: {
       "Content-Type": "text/plain",
     },
-    body: MDContent,
+    body: srcCode,
   });
 
-  lessonPreviewElement.innerHTML = lessonPreviewHTML;
+  const htmlCode = await res.text();
+  document.getElementById("lessonContent").innerHTML = htmlCode;
+  previewedSrcCode = srcCode;
 }
+
+setInterval(async () => {
+  await updateLessonPreview(); 
+}, 1000);
 
 async function saveLesson(id) {
-  await fetch("/lesson/" + id, {
+  await fetch("/lessons/" + id, {
     method: "PUT",
-    body: document.getElementById("lessonSrcCode").innerText,
+    body: getSourceCode(),
   });
-}
-
-async function loadContent(lessonId) {
-  let lessonMD = await fetch(`/lessons/${lessonId}/src`, {
-    method: "GET",
-  });
-  document.getElementById("content").innerText = lessonMD;
 }
