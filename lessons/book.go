@@ -1,4 +1,4 @@
-package parser
+package lessons
 
 import (
 	"fingelpp/finsyn"
@@ -27,9 +27,9 @@ type Book struct {
 	path     string
 }
 
-var CurrentBook *Book = LoadBook("./content")
+var CurrentBook *Book = loadBook("./content")
 
-func LoadBook(path string) *Book {
+func loadBook(path string) *Book {
 	book := &Book{Chapters: nil, path: path}
 	book.Reload()
 	return book
@@ -71,7 +71,6 @@ func (les *Les) Reload() {
 	if err != nil {
 		panic("Failed to read lesson: '" + les.Name + "': " + err.Error())
 	}
-	log.Infof("read Content: %s %s", content, les.path)
 	les.Content = finsyn.ParseFinSyn(string(content))
 	les.Src = string(content)
 	log.Infof("Loaded lesson: %s", les.Name)
@@ -84,9 +83,6 @@ func (les *Les) Update(newSrc string) {
 		panic("Failed to write lesson")
 	}
 	les.Reload()
-	// les.Src = newSrc
-	// les.Content = finsyn.ParseFinSyn(newSrc)
-	// log.Infof("Content: %s", newSrc)
 }
 
 func (book *Book) GetChapterById(id uint16) *Chapter {

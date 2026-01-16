@@ -7,16 +7,13 @@
   <h2 class="chapter" id="chapter-{{ $i }}">{{ $chap.Name }}</h2>
   <ul>
     {{ range $chap.Lessons }}
-      <li id="lesson-{{ .Id }}" class="lesson"><a href="/lessons/{{ .Id }}">{{ .Name }}</a></li>
+      <li id="lesson-{{ .Id }}" class="lesson">
+        <a href="/lessons/{{ .Id }}">{{ .Name }}</a>
+        <a href="/lessons/{{ .Id }}/edit">edit</a>
+        <span>Laatst geopend</span>
+      </li>
     {{end}}
   </ul>
   {{end}}
 </main>
-
-<script>
-  const lastOpened = document.getElementById("lesson-"+localStorage.getItem("lastOpenedLesson"));
-  if (lastOpened) {
-    lastOpened.classList.add("last-opened");
-  }
-</script>
 {{end}}
