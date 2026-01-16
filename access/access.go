@@ -22,9 +22,9 @@ type AccessFile struct {
 	permissions map[UserKey][]Permission
 }
 
-var CurrentAccessFile *AccessFile = LoadAccessFile("access.txt")
+var CurrentAccessFile *AccessFile = loadAccessFile("access.txt")
 
-func LoadAccessFile(path string) *AccessFile {
+func loadAccessFile(path string) *AccessFile {
 	content, err := os.ReadFile(path)
 	if err != nil {
 		if os.IsNotExist(err) {
@@ -81,4 +81,26 @@ func GetKey(c *gin.Context) UserKey {
 		return UserKeyAnonymous
 	}
 	return UserKey(key)
+}
+
+func Routes(r *gin.Engine) {
+
+	r.GET("/access/key/:key", func(c *gin.Context) {
+		key := c.Param("key")
+		if !CurrentAccessFile.KeyExist(key) {
+			utils.ReqError(c, http.StatusUnauthorized)
+			return
+		}
+		c.SetCookie("AccessKey", key, 100000000, "/", "", false, true)
+		c.Redirect(http.StatusSeeOther, "/")
+	})
+
+	r.GET("/access/permissions", func(c *gin.Context) {
+		perms := CurrentAccessFile.GetPerms(GetKey(c))
+		var sb strings.Builder
+		for _, perm := range perms {
+			sb.WriteString(string(perm))
+		}
+		c.String(http.StatusOK, sb.String())
+	})
 }

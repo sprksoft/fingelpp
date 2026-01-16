@@ -2,8 +2,7 @@ package main
 
 import (
 	"fingelpp/access"
-	"fingelpp/api"
-	"fingelpp/parser"
+	"fingelpp/lessons"
 	"fingelpp/utils"
 	"html/template"
 	"net/http"
@@ -47,17 +46,17 @@ func main() {
 	r.Static("/static", "./www/static")
 
 	r.GET("/", func(c *gin.Context) {
-		c.HTML(http.StatusOK, "home.tmpl", parser.CurrentBook.Chapters)
+		c.HTML(http.StatusOK, "home.tmpl", lessons.CurrentBook.Chapters)
 	})
 
 	r.GET("/lessons/:id", func(c *gin.Context) {
-		id, err := parser.ParseLessonId(c.Param("id"))
+		id, err := lessons.ParseLessonId(c.Param("id"))
 		if err != nil {
 			utils.ReqError(c, http.StatusBadRequest)
 			return
 		}
 
-		lesson := parser.CurrentBook.GetLessonById(id)
+		lesson := lessons.CurrentBook.GetLessonById(id)
 		if lesson == nil {
 			utils.ReqError(c, http.StatusNotFound)
 			return
@@ -65,12 +64,13 @@ func main() {
 
 		editPerms := access.CurrentAccessFile.HasPermission(c, access.PermissionEditLesson)
 
-		chap := parser.CurrentBook.GetChapterById(lesson.Id.ChapterId())
+		chap := lessons.CurrentBook.GetChapterById(lesson.Id.ChapterId())
 
-		c.HTML(http.StatusOK, "lesson.tmpl", gin.H{"Lesson": lesson, "ChapterName": chap.Name, "ChapterId": lesson.Id.ChapterId(), "EditPerms": editPerms})
+		c.HTML(http.StatusOK, "lesson.tmpl", gin.H{"Lesson": lesson, "ChapterName": chap.Name, "ChapterId": lesson.Id.ChapterId(), "Edit": editPerms})
 	})
 
-	api.Routes(r)
+	lessons.Routes(r)
+	access.Routes(r)
 
 	r.Run("localhost:2025")
 }

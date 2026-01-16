@@ -251,6 +251,10 @@ main > h2 + ul:not(:last-child) {
   border-bottom: 1px solid var(--bg-500);
 }
 
+#unsaved-icon {
+  display: none;
+}
+
 .lesson-name {
   color: var(--fuchsia-700);
 }

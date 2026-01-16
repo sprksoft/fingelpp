@@ -1,10 +1,10 @@
-{{define "title"}}{{ if .EditPerms }}Edit{{ end }} {{ .Lesson.Name }} - Fingel++ {{end}}
+{{define "title"}}{{ if .Edit }}Edit{{ end }} {{ .Lesson.Name }} - Fingel++ {{end}}
 
 {{ define "content" }}
 <nav>
-  <a href="/#chapter-{{ .ChapterId }}">{{ .ChapterName }}</a> <span>&gt;</span> <a href="/#lesson-{{ .Lesson.Id }}">{{ .Lesson.Name }}</a>
+  <a href="/#chapter-{{ .ChapterId }}">{{ .ChapterName }}</a> <span>&gt;</span> <a href="/#lesson-{{ .Lesson.Id }}">{{ .Lesson.Name }}<span id="unsaved-icon">*</span></a>
 
-  {{ if .EditPerms }}
+  {{ if .Edit }}
   <button onclick="fetch('/lessons/{{ .Lesson.Id }}/reload', { method: 'POST' }).then(()=>{location.reload()})">Reload</button>
   <button
     class="right-nav-button"
@@ -12,11 +12,11 @@
   >
     Delete
   </button>
-  <button class="right-nav-button" onclick="saveLesson('{{ .Lesson.Id }}')">Save</button>
+  <button class="right-nav-button" onclick="saveLesson()">Save</button>
   {{ end }}
 </nav>
 <main>
-  {{ if .EditPerms }}
+  {{ if .Edit }}
   <div id="lessonEditor">
     <label for="LessonSrcCode">Put the lesson content in MD here:</label>
     <div name="content" contenteditable id="LessonSrcCode">{{ .Lesson.Src | nl2br }}</div>
@@ -32,7 +32,10 @@
 
 {{ end }}
 {{ define "scripts" }}
-{{ if .EditPerms }}
+<script>
+    const LESSON_ID="{{ .Lesson.Id }}"
+</script>
+{{ if .Edit }}
 <script src="/static/js/editor.js"></script>
 <script>
   (async ()=> {
