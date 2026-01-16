@@ -528,3 +528,25 @@ button:hover {
 input:active {
   transform: scale(0.95);
 }
+
+#LessonSrcCode:focus-visible {
+  outline: 1px solid var(--bg-500);
+  background: var(--bg-300);
+}
+
+#LessonSrcCode {
+  padding: 0.5rem;
+  padding-left: 0.25rem;
+  border-radius: 1rem;
+  transition: background 0.1s ease-in-out;
+}
+
+#lessonEditor label {
+  color: var(--fuchsia-700);
+  font-size: 1.5em;
+  font-weight: 600;
+}
+
+#lessonEditor {
+  padding-top: 1rem;
+}
