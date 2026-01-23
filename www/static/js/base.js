@@ -130,13 +130,6 @@ function check(inputEl) {
   }
 }
 
-$(".exr").on("input", function (_) {
-  check(this);
-});
-$(".exr").each(function (_) {
-  check(this);
-});
-
 function checkMultipleChoice(exrEl) {
   exrEl.classList.add("show-awnsers");
   for (const el of exrEl.querySelectorAll("li")) {
@@ -146,14 +139,23 @@ function checkMultipleChoice(exrEl) {
   }
 }
 
-$(".exr-multiplechoice button").on("click", function (_) {
-  checkMultipleChoice(this.parentElement);
-  updateScore(this.parentElement.parentElement);
-});
+function updateExercises() {
+  $(".exr").on("input", function (_) {
+    check(this);
+  });
+  $(".exr").each(function (_) {
+    check(this);
+  });
+  $(".exr-multiplechoice button").on("click", function (_) {
+    checkMultipleChoice(this.parentElement);
+    updateScore(this.parentElement.parentElement);
+  });
 
-$(".exercise").on("input", function (_) {
-  updateScore(this);
-});
-$(".exercise").each(function (_) {
-  updateScore(this, false);
-});
+  $(".exercise").on("input", function (_) {
+    updateScore(this);
+  });
+  $(".exercise").each(function (_) {
+    updateScore(this, false);
+  });
+}
+updateExercises();

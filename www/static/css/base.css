@@ -307,7 +307,9 @@ nav a {
   display: block;
   font-size: 1.3rem;
   font-weight: 600;
-  transition: transform 0.2s, box-shadow 0.3s;
+  transition:
+    transform 0.2s,
+    box-shadow 0.3s;
 }
 
 nav a:last-of-type {
@@ -539,9 +541,7 @@ input:active {
 }
 
 #LessonSrcCode {
-  padding: 0.5rem;
-  padding-left: 0.25rem;
-  border-radius: 1rem;
+  margin-top: 3rem;
   transition: background 0.1s ease-in-out;
 }
 
@@ -553,4 +553,69 @@ input:active {
 
 #lessonEditor {
   padding-top: 1rem;
+  position: relative;
+}
+
+div.TMCommandBar {
+  border-radius: 1rem;
+  border: 1px solid var(--bg-500);
+  background-color: var(--bg-200);
+  padding: 0.5rem;
+  box-shadow: 0px 2px 10px 0px var(--shadow-color);
+}
+
+#LessonToolbar {
+  position: fixed;
+}
+
+div.TMCommandButton_Disabled {
+  color: var(--color-text);
+  opacity: 0.5;
+}
+
+div.TMCommandButton {
+  opacity: 1;
+  color: var(--color-text);
+  fill: var(--color-text);
+  border-radius: 0.5rem;
+}
+
+div.TMCommandButton_Inactive {
+  background-color: transparent;
+}
+
+div.TMCommandButton_Active {
+  background-color: var(--fuchsia-600);
+  color: var(--bg);
+  fill: var(--bg);
+}
+
+div.TMCommandDivider {
+  border-color: var(--fuchsia-600);
+}
+
+div.TinyMDE {
+  background-color: transparent;
+  color: var(--color-text);
+}
+
+span.TMMark {
+  color: var(--fuchsia-700);
+}
+
+span.TMMark_TMH1,
+span.TMMark_TMH2,
+span.TMMark_TMOL,
+span.TMMark_TMUL {
+  color: var(--fuchsia-600);
+}
+span.TMAutolink,
+span.TMLinkDestination {
+  color: var(--fuchsia-600);
+}
+span.TMLink {
+  text-decoration-color: var(--fuchsia-600);
+}
+span.TMLinkLabel_Invalid {
+  color: var(--red-700);
 }

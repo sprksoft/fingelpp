@@ -1,9 +1,35 @@
+var tinyMDE = new TinyMDE.Editor({
+  element: "LessonSrcCode",
+  content: ORIGINAL_SOURCE,
+});
+var commandBar = new TinyMDE.CommandBar({
+  element: "LessonToolbar",
+  editor: tinyMDE,
+  commands: [
+    "bold",
+    "italic",
+    "|",
+    "h1",
+    "h2",
+    "h3",
+    "|",
+    "ul",
+    "|",
+    "blockquote",
+    "|",
+    "insertLink",
+    "|",
+    "undo",
+    "redo",
+  ],
+});
+
 function getSourceCode() {
-  return document.getElementById("LessonSrcCode").innerText;
+  return tinyMDE.getContent();
 }
 
-let previewedSrcCode=getSourceCode();
-let dirty=false;
+let previewedSrcCode = getSourceCode();
+let dirty = false;
 
 async function updateLessonPreview() {
   const srcCode = getSourceCode();
@@ -19,10 +45,11 @@ async function updateLessonPreview() {
   const htmlCode = await res.text();
   document.getElementById("lessonContent").innerHTML = htmlCode;
   previewedSrcCode = srcCode;
+  updateExercises();
 }
 
 setInterval(async () => {
-  await updateLessonPreview(); 
+  await updateLessonPreview();
 }, 1000);
 
 async function saveLesson() {
@@ -38,13 +65,17 @@ document.getElementById("LessonSrcCode").addEventListener("input", (e) => {
 });
 
 function setDirty(value) {
-  if (dirty === value) { return; }
-  dirty=value;
-  document.getElementById("unsaved-icon").style.display=dirty?"inline":"none";
-  if (value){
-    window.addEventListener("beforeunload", onBeforeUnload)
+  if (dirty === value) {
+    return;
+  }
+  dirty = value;
+  document.getElementById("unsaved-icon").style.display = dirty
+    ? "inline"
+    : "none";
+  if (value) {
+    window.addEventListener("beforeunload", onBeforeUnload);
   } else {
-    window.removeEventListener("beforeunload", onBeforeUnload)
+    window.removeEventListener("beforeunload", onBeforeUnload);
   }
 }
 
@@ -57,5 +88,4 @@ document.addEventListener("keydown", async (e) => {
     e.preventDefault();
     await saveLesson();
   }
-})
-
+});

@@ -1,5 +1,10 @@
 {{define "title"}}{{ if .Edit }}Edit{{ end }} {{ .Lesson.Name }} - Fingel++ {{end}}
-
+{{ define "head" }} <link
+  rel="stylesheet"
+  type="text/css"
+  href="https://unpkg.com/tiny-markdown-editor/dist/tiny-mde.min.css"
+/>
+{{ end }}
 {{ define "content" }}
 <nav>
   <a href="/#chapter-{{ .ChapterId }}">{{ .ChapterName }}</a> <span>&gt;</span> <a href="/#lesson-{{ .Lesson.Id }}">{{ .Lesson.Name }}<span id="unsaved-icon">*</span></a>
@@ -18,8 +23,8 @@
 <main>
   {{ if .Edit }}
   <div id="lessonEditor">
-    <label for="LessonSrcCode">Put the lesson content in MD here:</label>
-    <div name="content" contenteditable id="LessonSrcCode">{{ .Lesson.Src | nl2br }}</div>
+  <div id="LessonToolbar"></div>
+    <div id="LessonSrcCode" spellcheck="false"></div>
   </div>
   {{ end }}
   <div id="lesson">
@@ -36,6 +41,8 @@
     const LESSON_ID="{{ .Lesson.Id }}"
 </script>
 {{ if .Edit }}
+<script>const ORIGINAL_SOURCE = "{{ .Lesson.Src }}"</script>
+<script src="https://unpkg.com/tiny-markdown-editor/dist/tiny-mde.min.js"></script>
 <script src="/static/js/editor.js"></script>
 <script>
   (async ()=> {

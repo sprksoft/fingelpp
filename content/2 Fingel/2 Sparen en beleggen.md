@@ -7,7 +7,7 @@ Er zijn verschillende soorten rekeningen.
 > [INFO] Spaarrekening
 > Een bankrekening die onder bepaalde voorwaarden een hogere rente oplevert dan een gewone zichtrekening
 > Kenmerken zijn:
->
+> 
 > - De bank geeft je intrest op het bedrag dat op deze rekening staat.
 > - Je kan op elk moment geld afhalen en je kan op elk moment geld bijstorten.
 

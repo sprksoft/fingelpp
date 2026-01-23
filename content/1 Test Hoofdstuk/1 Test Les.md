@@ -4,9 +4,12 @@
 
 [ik ben een link naar google](https://google.com)
 
+**Hier wil ik bold text**
+
 ik ben sibe 
 
-> [INFO] Kennis
+
+> [INFO] Nee geen kennis
 > belangrijke informatie. (wordt automatisch toegevoegd aan de theorie tab?)
 
 > [INFO] Kennis 1
