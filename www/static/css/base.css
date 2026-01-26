@@ -272,10 +272,21 @@ li.lesson {
   font-size: 1.3rem;
   font-weight: 600;
 }
-.lesson.last-opened::after {
-  content: "laatst geopened";
-  margin-left: auto;
-  align-self: center;
+.lesson .edit-btn {
+  margin-left:auto;
+  transition: 0.5s transform;
+}
+.lesson .edit-btn:hover {
+  transform: scale(1.1);
+}
+.edit-icon {
+  width: 1.5em;
+  height: 1.5em;
+  color: var(--fuchsia-700);
+}
+
+.lesson .last-opened {
+  margin-left: 0.5em;
 }
 
 nav {
@@ -619,3 +630,4 @@ span.TMLink {
 span.TMLinkLabel_Invalid {
   color: var(--red-700);
 }
+

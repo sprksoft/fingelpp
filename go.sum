@@ -1,3 +1,5 @@
+github.com/IBM/fp-go/v2 v2.1.20 h1:IMjciRrSHYTtqJ0FkTjIW0X14rGjG7vdIvwwzaefGp8=
+github.com/IBM/fp-go/v2 v2.1.20/go.mod h1:b7y1r0BAYSHsbTbuM4wgQr+x0kC7aqVhf/o2PUGgBLk=
 github.com/aymanbagabas/go-osc52/v2 v2.0.1 h1:HwpRHbFMcZLEVr42D4p7XBqjyuxQH5SMiErDT4WkJ2k=
 github.com/aymanbagabas/go-osc52/v2 v2.0.1/go.mod h1:uYgXzlJ7ZpABp8OJ+exZzJJhRNQ2ASbcXHWsFqH8hp8=
 github.com/bytedance/sonic v1.14.0 h1:/OfKt8HFw0kh2rj8N0F6C/qPGRESq0BbaNZgcNXXzQQ=

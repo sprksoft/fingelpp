@@ -3,14 +3,18 @@
   <h1 class="main-title">Fingel++</h1>
 </header>
 <main>
-  {{ range $i, $chap := . }}
+  {{ range $i, $chap := .Chapters }}
   <h2 class="chapter" id="chapter-{{ $i }}">{{ $chap.Name }}</h2>
   <ul>
     {{ range $chap.Lessons }}
       <li id="lesson-{{ .Id }}" class="lesson">
         <a href="/lessons/{{ .Id }}">{{ .Name }}</a>
-        <a href="/lessons/{{ .Id }}/edit">edit</a>
-        <span>Laatst geopend</span>
+        {{ if $.EditPerms }}
+        <a class="edit-btn" href="/lessons/{{ .Id }}/edit"> {{ template "edit.tmpl" . }}</a>
+        {{ end }}
+        {{ if eq $.LastOpened .Id }}
+        <span class="last-opened">Laatst geopend</span>
+        {{ end }}
       </li>
     {{end}}
   </ul>

@@ -9,6 +9,7 @@ require (
 )
 
 require (
+	github.com/IBM/fp-go/v2 v2.1.20
 	github.com/aymanbagabas/go-osc52/v2 v2.0.1 // indirect
 	github.com/bytedance/sonic v1.14.0 // indirect
 	github.com/bytedance/sonic/loader v0.3.0 // indirect

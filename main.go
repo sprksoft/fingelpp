@@ -3,12 +3,12 @@ package main
 import (
 	"fingelpp/access"
 	"fingelpp/lessons"
-	"fingelpp/utils"
 	"html/template"
 	"net/http"
 	"path/filepath"
 	"strings"
 
+	"github.com/IBM/fp-go/v2/result"
 	"github.com/gin-contrib/multitemplate"
 	"github.com/gin-gonic/gin"
 )
@@ -24,7 +24,7 @@ func createHTMLRenderer(rootDir string) multitemplate.Renderer {
 		},
 	}
 
-	globals := []string{rootDir + "/base.tmpl"}
+	globals := []string{rootDir + "/base.tmpl", rootDir + "/svg/edit.tmpl"}
 
 	pages, err := filepath.Glob(rootDir + "/pages/*.tmpl")
 	if err != nil {
@@ -40,33 +40,28 @@ func createHTMLRenderer(rootDir string) multitemplate.Renderer {
 	return r
 }
 
+func toResult[T any](value T, err error) result.Result[T] {
+	if err != nil {
+		return result.Left[T](err)
+	}
+	return result.Right(value)
+}
+
 func main() {
 	r := gin.Default()
 	r.HTMLRender = createHTMLRenderer("./www/templates")
 	r.Static("/static", "./www/static")
 
 	r.GET("/", func(c *gin.Context) {
-		c.HTML(http.StatusOK, "home.tmpl", lessons.CurrentBook.Chapters)
-	})
+		// lastOpened := result.Chain(func(value string) result.Result[lessons.LessonId] {
+		// 	lessonId, err := lessons.ParseLessonId(value)
+		// 	if err != nil {
+		// 		return result.Left[lessons.LessonId](err)
+		// 	}
+		// 	return result.Right(lessonId)
+		// })(c.Cookie("lastOpenedLesson"))
 
-	r.GET("/lessons/:id", func(c *gin.Context) {
-		id, err := lessons.ParseLessonId(c.Param("id"))
-		if err != nil {
-			utils.ReqError(c, http.StatusBadRequest)
-			return
-		}
-
-		lesson := lessons.CurrentBook.GetLessonById(id)
-		if lesson == nil {
-			utils.ReqError(c, http.StatusNotFound)
-			return
-		}
-
-		editPerms := access.CurrentAccessFile.HasPermission(c, access.PermissionEditLesson)
-
-		chap := lessons.CurrentBook.GetChapterById(lesson.Id.ChapterId())
-
-		c.HTML(http.StatusOK, "lesson.tmpl", gin.H{"Lesson": lesson, "ChapterName": chap.Name, "ChapterId": lesson.Id.ChapterId(), "Edit": editPerms})
+		c.HTML(http.StatusOK, "home.tmpl", gin.H{"Chapters": lessons.CurrentBook.Chapters, "EditPerms": access.CurrentAccessFile.HasPermission(c, access.PermissionEditLesson), "LastOpened": ""})
 	})
 
 	lessons.Routes(r)
