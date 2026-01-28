@@ -1,5 +1,3 @@
-# Aandelen en obligaties
-
 **Sparen** geeft je zekerheid maar het stelt je niet altijd in staat om je **koopkracht** te behouden. Als je belegt kan je wel je **koopkracht** behouden, maar het houdt risico's in. In dit deel maak je kennis met verschillende spaar- en beleggingsvormen.
 
 Er zijn verschillende soorten rekeningen.
@@ -7,7 +5,7 @@ Er zijn verschillende soorten rekeningen.
 > [INFO] Spaarrekening
 > Een bankrekening die onder bepaalde voorwaarden een hogere rente oplevert dan een gewone zichtrekening
 > Kenmerken zijn:
-> 
+>
 > - De bank geeft je intrest op het bedrag dat op deze rekening staat.
 > - Je kan op elk moment geld afhalen en je kan op elk moment geld bijstorten.
 
