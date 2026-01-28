@@ -12,9 +12,6 @@
         {{ if $.EditPerms }}
         <a class="edit-btn" href="/lessons/{{ .Id }}/edit"> {{ template "edit.tmpl" . }}</a>
         {{ end }}
-        {{ if eq $.LastOpened .Id }}
-        <span class="last-opened">Laatst geopend</span>
-        {{ end }}
       </li>
     {{end}}
   </ul>
