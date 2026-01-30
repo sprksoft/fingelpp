@@ -10,8 +10,8 @@
   --turquoise-800: oklch(0.92 0.04 180);
 
   --steel-000: oklch(0.28 0.03 265);
-  --steel-050: oklch(0.35 0.03 265);
-  --steel-100: oklch(50.699% 0.12836 265);
+  --steel-050: oklch(0.35 0.04 265);
+  --steel-100: oklch(0.5 0.04 265);
   --steel-600: oklch(0.77 0.13 265);
   --steel-700: oklch(0.87 0.07 265);
   --steel-800: oklch(0.92 0.04 265);
@@ -49,8 +49,8 @@ html {
 }
 
 .info {
-  --block-title-border-color: var(--steel-100);
-  --title-bg: var(--steel-100);
+  --block-title-border-color: var(--steel-600);
+  --title-bg: var(--steel-600);
   --block-title-color: var(--steel-800);
 }
 
@@ -73,14 +73,14 @@ html {
 }
 .exr-footer .score {
   font-weight: bold;
-  color: var(--color-correct);
+  color: var(--fuchsia-700);
 }
 .exr-footer .score-bar {
   display: block;
   width: 10em;
   height: 1em;
   border-radius: 10000px;
-  background: var(--fuchsia-100);
+  background: color-mix(in oklab, var(--title-bg) 50%, transparent 50%);
   margin-left: 0.5em;
   margin-right: 0.2em;
 }
@@ -89,31 +89,31 @@ html {
   display: block;
   height: 100%;
   border-radius: 10000px;
-  background: repeating-linear-gradient(
-    45deg,
-    var(--color-correct),
-    var(--color-correct) 10px,
-    var(--color-correct-dark) 10px,
-    var(--color-correct-dark) 20px
+  background: linear-gradient(
+    30deg,
+    color-mix(in oklab, var(--fuchsia-600) 70%, transparent 30%),
+    var(--fuchsia-600)
   );
+
   transition: width 0.5s ease;
 }
 .exr-footer .star {
   width: 1.5em;
-  color: var(--color-wrong);
+  color: var(--fuchsia-100);
   transition: width 1s ease;
 }
 .exr-footer .star.fully-correct {
   animation: collectStar 1s ease forwards;
+  color: var(--fuchsia-600);
 }
 @keyframes collectStar {
   0% {
     transform: scale(100%);
     filter: brightness(100%);
-    color: var(--color-wrong);
+    color: var(--fuchsia-100);
   }
   20% {
-    color: var(--color-correct);
+    color: var(--fuchsia-600);
     transform: scale(60%);
     filter: brightness(120%);
   }
@@ -122,8 +122,8 @@ html {
     filter: brightness(130%);
   }
   100% {
+    color: var(--fuchsia-600);
     filter: brightness(100%);
-    color: var(--color-correct);
     transform: scale(100%);
   }
 }
@@ -138,7 +138,8 @@ html {
 .car-buttons button {
   border: 1px solid var(--fuchsia-600);
   border-radius: 100000px;
-  background: var(--color-bg-border);
+  background: color-mix(in oklab, var(--title-bg) 50%, transparent 50%);
+
   width: 1.5em;
   height: 1.5em;
 }
@@ -307,13 +308,13 @@ a:hover {
 }
 
 nav a {
-  background: oklch(0.31 0.01 265 / 50%);
-  border: 2px solid var(--fuchsia-600);
+  background: color-mix(in oklab, var(--fuchsia-600) 10%, transparent 90%);
+  border: 2px solid var(--bg-500);
   backdrop-filter: blur(20px);
   box-shadow: 0px 2px 10px 2px var(--shadow-color);
   padding: 0.2rem 1rem;
   border-radius: 1000px;
-  color: var(--fuchsia-600);
+  color: var(--fuchsia-700);
   text-decoration: none;
   display: block;
   font-size: 1.3rem;
@@ -321,10 +322,6 @@ nav a {
   transition:
     transform 0.2s,
     box-shadow 0.3s;
-}
-
-nav a:last-of-type {
-  color: var(--fuchsia-700);
 }
 
 nav a:hover {
@@ -358,32 +355,29 @@ p {
 .block {
   padding-top: 0px;
   margin-bottom: 1rem;
-  border-radius: 1.5rem;
+  border-radius: 2.25rem;
   overflow: clip;
-  background: linear-gradient(0deg, var(--steel-000), var(--steel-050));
+  background: var(--steel-000);
   box-shadow: 0px 5px 30px -10px var(--shadow-color);
+
+  border: 1px solid var(--steel-050);
   contain: content;
   margin-top: 2rem;
   position: relative;
   z-index: 2;
 }
 
-.block::before {
-  content: "";
-  position: absolute;
-  inset: 0;
-  border-radius: 1.5rem;
-  box-shadow: 0px 0px 10px 0px var(--shadow-color) inset;
-  pointer-events: none;
-  z-index: 1;
-}
-
 .block > .block-title {
+  margin: 0.75rem;
+  border-radius: 1.75rem;
+  height: 1.5rem;
+  align-items: center;
   padding: 0.7rem 1rem;
   padding-top: 0.9rem;
-  box-shadow: 0px 0px 4px 0px var(--shadow-color);
-  background: var(--title-bg);
-  border-bottom: 0.5px solid var(--block-title-border-color);
+  box-shadow: 0px 0px 10px 0px var(--shadow-color);
+  background: color-mix(in oklab, var(--title-bg) 50%, transparent 50%);
+  backdrop-filter: blur(10px);
+  border: 1px solid var(--block-title-border-color);
   display: flex;
   flex-direction: row;
   position: relative;
@@ -422,27 +416,24 @@ p {
 
 .exr,
 .exr-multiplechoice li {
-  outline: 1px solid var(--fuchsia-600);
+  outline: 1px solid var(--steel-100);
   border-radius: 10000px;
   border: none;
   margin: 0.2rem;
 
-  background: var(--fuchsia-100);
+  background: var(--steel-050);
   color: var(--color-text);
-  transition: transform 0.1s;
+  transition-property: border-color transform;
+  transition: 0.1s ease-in;
 }
 
 .exr-multiplechoice li:hover,
 .exr:hover,
 button:hover {
-  outline: 2px solid var(--fuchsia-700);
+  outline: 1px solid var(--fuchsia-700);
   border-width: 2px;
-  transform: scale(1.001);
+  transform: scale(1.005);
   cursor: pointer;
-}
-
-.exr-multiplechoice label {
-  padding: 0.2rem 0.8rem;
 }
 
 .exr-multiplechoice button {
@@ -452,15 +443,16 @@ button:hover {
   padding: 0.5rem 1rem;
   font-weight: bold;
   color: var(--color-text);
-  background: var(--fuchsia-100);
-  border: 2px solid var(--fuchsia-600);
+  background: color-mix(in oklab, var(--title-bg) 50%, transparent 50%);
+  backdrop-filter: blur(10px);
+  border: 1px solid var(--block-title-border-color);
   transition: transform 0.1s;
   font-size: 1rem;
 }
 
 .exr-multiplechoice button:hover {
   cursor: pointer;
-  transform: scale(1.025);
+  transform: scale(1.01);
 }
 
 .exr-multiplechoice button:active {
@@ -496,7 +488,7 @@ button:hover {
 .exr-multiplechoice ul {
   display: flex;
   flex-direction: column;
-  gap: 0.25rem;
+  gap: 0.3rem;
   list-style: none;
   padding: 0px;
   margin-left: 1rem;
@@ -507,6 +499,7 @@ button:hover {
   display: flex;
   cursor: pointer;
   align-items: center;
+  padding: 0.5rem 0.8rem;
 }
 
 .exr-multiplechoice span::selection {
@@ -514,10 +507,11 @@ button:hover {
 }
 
 .exr-multiplechoice label span {
-  margin-left: 0.25rem;
+  margin-left: 0.5rem;
 }
 
 .exr-multiplechoice input {
+  margin: 0;
   background: var(--color-text);
   border-radius: 0.3rem;
   width: 1.2rem;
@@ -528,13 +522,12 @@ button:hover {
 .exercise input[type="text"] {
   appearance: none;
   padding: 0.5rem 1rem;
-  font-size: 1.2rem;
+  font-size: 1rem;
   margin-top: 1rem;
 }
 
 .exercise input[type="radio"] {
   appearance: none;
-  margin: 0.5rem 0rem;
   border-radius: 10000px;
 }
 
