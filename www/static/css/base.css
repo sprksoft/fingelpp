@@ -273,7 +273,7 @@ li.lesson {
   font-weight: 600;
 }
 .lesson .edit-btn {
-  margin-left:auto;
+  margin-left: auto;
   transition: 0.5s transform;
 }
 .lesson .edit-btn:hover {
@@ -588,6 +588,7 @@ div.TMCommandButton {
   opacity: 1;
   color: var(--color-text);
   fill: var(--color-text);
+  stroke: var(--color-text);
   border-radius: 0.5rem;
 }
 
@@ -598,7 +599,16 @@ div.TMCommandButton_Inactive {
 div.TMCommandButton_Active {
   background-color: var(--fuchsia-600);
   color: var(--bg);
-  fill: var(--bg);
+  fill: var(--bg-200);
+  stroke: var(--bg-200);
+}
+
+div.TMCommandButton_Active:hover,
+div.TMCommandButton_Disabled:hover,
+div.TMCommandButton_Inactive:hover {
+  background-color: var(--color-text);
+  fill: var(--bg-200);
+  stroke: var(--bg-200);
 }
 
 div.TMCommandDivider {
@@ -630,4 +640,3 @@ span.TMLink {
 span.TMLinkLabel_Invalid {
   color: var(--red-700);
 }
-
