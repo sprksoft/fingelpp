@@ -60,6 +60,7 @@ html {
   --block-title-color: var(--fuchsia-800);
   --block-score-color: var(--fuchsia-700);
 }
+
 .exr-footer {
   display: flex;
   flex-direction: column;
@@ -205,6 +206,7 @@ body:has(#lessonEditor) {
 
 main:has(.chapter) {
   margin-top: 0rem;
+  margin-bottom: 4rem;
   background: var(--bg);
   padding: 0rem 1rem;
   border: 1px solid var(--bg-500);
@@ -240,8 +242,23 @@ header:has(.main-title) + main {
 }
 
 h2.chapter {
-  padding: 0.75rem;
-  border-radius: 1rem;
+  margin: 1rem 0rem;
+  border-radius: 1.75rem;
+  height: 1.5rem;
+  align-items: center;
+  padding: 0.7rem 1rem;
+  padding-top: 0.9rem;
+  box-shadow: 0px 0px 10px 0px var(--shadow-color);
+  background: color-mix(in oklab, var(--fuchsia-100) 50%, transparent 50%);
+  backdrop-filter: blur(10px);
+  border: 1px solid var(--fuchsia-100);
+  display: flex;
+  flex-direction: row;
+  position: relative;
+}
+
+ul:has(.lesson) {
+  margin-top: 0;
 }
 
 h2.chapter:not(:first-child) {
@@ -261,24 +278,45 @@ main > h2 + ul:not(:last-child) {
 }
 
 li.lesson {
-  padding: 0.75rem;
   border-radius: 1rem;
   list-style-type: none;
   display: flex;
   flex-direction: row;
+  border: 1px solid transparent;
+  transition-property: scale, background, border-color;
+  transition: 0.1s ease-in-out;
 }
+
+li.lesson:hover {
+  scale: 1.01;
+  background: var(--bg-500);
+  border: 1px solid var(--fuchsia-600);
+}
+.lesson a:hover {
+  text-decoration: none;
+}
+
 .lesson a {
+  width: 100%;
+  padding: 0.75rem;
   color: var(--fuchsia-700);
   text-decoration: none;
   font-size: 1.3rem;
   font-weight: 600;
+  display: flex;
+  align-items: center;
 }
 .lesson .edit-btn {
+  width: 3rem;
   margin-left: auto;
   transition: 0.5s transform;
 }
 .lesson .edit-btn:hover {
   transform: scale(1.1);
+}
+
+.lesson .edit-btn:hover svg {
+  fill: var(--fuchsia-700);
 }
 .edit-icon {
   width: 1.5em;
