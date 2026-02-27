@@ -10,14 +10,17 @@
   <a href="/#chapter-{{ .ChapterId }}">{{ .ChapterName }}</a> <span>&gt;</span> <a href="/#lesson-{{ .Lesson.Id }}">{{ .Lesson.Name }}<span id="unsaved-icon">*</span></a>
 
   {{ if .Edit }}
+
   <button onclick="fetch('/lessons/{{ .Lesson.Id }}/reload', { method: 'POST' }).then(()=>{location.reload()})">Reload</button>
+  <div class="edit-buttons">
   <button
-    class="right-nav-button"
+    class="right-nav-button delete-button"
     onclick="fetch('/lessons/{{ .Lesson.Id }}/delete', {method: 'DELETE'}, ).then(()=>{location.replace('/')})"
   >
     Delete
   </button>
-  <button class="right-nav-button" onclick="saveLesson()">Save</button>
+  <button class="right-nav-button save-button" onclick="saveLesson()">Save</button>
+  </div>
   {{ end }}
 </nav>
 <main>

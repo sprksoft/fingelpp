@@ -24,6 +24,7 @@
   --bg-100: oklch(0.18 0.01 265);
   --bg-200: oklch(0.2 0.01 265);
   --bg-300: oklch(0.24 0.01 265);
+  --bg-400: oklch(0.26 0.01 265);
   --bg-500: oklch(0.31 0.01 265);
 }
 
@@ -84,6 +85,7 @@ html {
   background: color-mix(in oklab, var(--title-bg) 50%, transparent 50%);
   margin-left: 0.5em;
   margin-right: 0.2em;
+  box-shadow: 1px 0px 12px -6px var(--shadow-color);
 }
 .exr-footer .score-bar .fill {
   content: " ";
@@ -99,6 +101,7 @@ html {
   transition: width 0.5s ease;
 }
 .exr-footer .star {
+  transform: translateY(-2px);
   width: 1.5em;
   color: var(--fuchsia-100);
   transition: width 1s ease;
@@ -177,6 +180,7 @@ body {
   width: 100%;
   box-sizing: border-box;
   align-items: center;
+  padding-bottom: 2rem;
 }
 
 main {
@@ -259,6 +263,8 @@ h2.chapter {
 
 ul:has(.lesson) {
   margin-top: 0;
+  padding: 0rem 1rem;
+  padding-bottom: 0.5rem;
 }
 
 h2.chapter:not(:first-child) {
@@ -289,17 +295,17 @@ li.lesson {
 
 li.lesson:hover {
   scale: 1.01;
-  background: var(--bg-500);
-  border: 1px solid var(--fuchsia-600);
+  background: var(--bg-400);
 }
 .lesson a:hover {
   text-decoration: none;
+  color: var(--fuchsia-600);
 }
 
 .lesson a {
+  color: var(--color-text);
   width: 100%;
   padding: 0.75rem;
-  color: var(--fuchsia-700);
   text-decoration: none;
   font-size: 1.3rem;
   font-weight: 600;
@@ -329,15 +335,16 @@ li.lesson:hover {
 }
 
 nav {
-  width: fit-content;
+  width: -webkit-fill-available;
   position: fixed;
   left: 1rem;
   border-radius: 10000px;
-  margin: 1rem 0rem;
+  padding: 1rem 0rem;
   z-index: 100000;
   display: flex;
   flex-direction: row;
   gap: 1rem;
+  margin-right: 1rem;
 }
 
 a:hover {
@@ -347,7 +354,7 @@ a:hover {
 
 nav a {
   background: color-mix(in oklab, var(--fuchsia-600) 10%, transparent 90%);
-  border: 2px solid var(--bg-500);
+  border: 1px solid var(--bg-500);
   backdrop-filter: blur(20px);
   box-shadow: 0px 2px 10px 2px var(--shadow-color);
   padding: 0.2rem 1rem;
@@ -355,11 +362,54 @@ nav a {
   color: var(--fuchsia-700);
   text-decoration: none;
   display: block;
-  font-size: 1.3rem;
+  font-size: 1.4rem;
   font-weight: 600;
+  text-overflow: ellipsis;
+  overflow: hidden;
+  text-wrap-mode: nowrap;
   transition:
     transform 0.2s,
     box-shadow 0.3s;
+}
+
+nav .edit-buttons {
+  background: color-mix(in oklab, var(--fuchsia-600) 10%, transparent 90%);
+  border: 1px solid var(--bg-500);
+  backdrop-filter: blur(20px);
+  box-shadow: 0px 2px 10px 2px var(--shadow-color);
+  padding: 0rem;
+  border-radius: 1000px;
+  margin-left: auto;
+  display: flex;
+  flex-direction: row;
+  margin-right: 1rem;
+  padding: 0.1rem;
+}
+
+.right-nav-button {
+  border: none;
+  background-color: transparent;
+  border-radius: 1000px;
+  font-size: 1.3rem;
+  color: var(--color-text);
+  font-weight: 600;
+  padding: 0.2rem 0.75rem;
+}
+.right-nav-button:hover {
+  outline: none;
+  background-color: color-mix(
+    in oklab,
+    var(--fuchsia-600) 10%,
+    transparent 90%
+  );
+}
+
+.right-nav-button.save-button:hover {
+  color: var(--turquoise-600);
+}
+
+.right-nav-button.delete-button:hover {
+  color: var(--red-600);
 }
 
 nav a:hover {
@@ -412,8 +462,8 @@ p {
   align-items: center;
   padding: 0.7rem 1rem;
   padding-top: 0.9rem;
-  box-shadow: 0px 0px 10px 0px var(--shadow-color);
-  background: color-mix(in oklab, var(--title-bg) 50%, transparent 50%);
+  box-shadow: 1px 0px 12px -4px var(--shadow-color);
+  background: color-mix(in oklab, var(--title-bg) 40%, transparent 60%);
   backdrop-filter: blur(10px);
   border: 1px solid var(--block-title-border-color);
   display: flex;
@@ -458,6 +508,7 @@ p {
   border-radius: 10000px;
   border: none;
   margin: 0.2rem;
+  box-shadow: 1px 0px 12px -4px var(--shadow-color);
 
   background: var(--steel-050);
   color: var(--color-text);
@@ -481,11 +532,12 @@ button:hover {
   padding: 0.5rem 1rem;
   font-weight: bold;
   color: var(--color-text);
-  background: color-mix(in oklab, var(--title-bg) 50%, transparent 50%);
+  background: color-mix(in oklab, var(--title-bg) 40%, transparent 60%);
   backdrop-filter: blur(10px);
   border: 1px solid var(--block-title-border-color);
   transition: transform 0.1s;
   font-size: 1rem;
+  box-shadow: 1px 0px 12px -6px var(--shadow-color);
 }
 
 .exr-multiplechoice button:hover {

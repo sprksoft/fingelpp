@@ -4,17 +4,24 @@
 </header>
 <main>
   {{ range $i, $chap := .Chapters }}
-  <h2 class="chapter" id="chapter-{{ $i }}">{{ $chap.Name }}</h2>
+  <h2 class="chapter" id="chapter-{{ $i }}">{{ $chap.Name }} <button class="collapse-button">collapse</button></h2>
   <ul>
     {{ range $chap.Lessons }}
       <li id="lesson-{{ .Id }}" class="lesson">
+      {{ if $.EditPerms }}
+      <button class="move-button">=</button>
+      {{ end }}
         <a href="/lessons/{{ .Id }}">{{ .Name }}</a>
         {{ if $.EditPerms }}
         <a class="edit-btn" href="/lessons/{{ .Id }}/edit"> {{ template "edit.tmpl" . }}</a>
         {{ end }}
       </li>
     {{end}}
+    
   </ul>
   {{end}}
 </main>
+  {{ if $.EditPerms }}
+    <script src="/static/js/manager.js"></script>
+  {{ end }}
 {{end}}
