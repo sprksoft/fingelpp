@@ -6,6 +6,7 @@ class LessonCategory {
     this.categoryId = categoryId;
     this.element = element;
     this.isOpen = true;
+    this.initialiseEventListeners();
   }
   close() {
     this.element.classList.add("hidden");
@@ -23,7 +24,7 @@ class LessonCategory {
   initialiseEventListeners() {
     let collapseButton = this.element.querySelector(".collapse-button");
     if (!collapseButton) return;
-    collapseButton.addEventListener("click", this.toggle);
+    collapseButton.addEventListener("click", () => this.toggle());
   }
 }
 
@@ -61,7 +62,18 @@ class Lesson {
   initialiseEventListeners() {
     let moveButton = this.element.querySelector(".move-button");
     if (!moveButton) return;
-    moveButton.addEventListener("click", this.startMoving);
+
+    moveButton.addEventListener("click", () => this.startMoving());
   }
 }
-function createCategoryObjects() {}
+
+let lessonCategories = createCategoryObjects();
+function createCategoryObjects() {
+  let lessons = Array.from(document.querySelectorAll(".lesson-category")).map(
+    (lessonCategory) => {
+      let lessonId = lessonCategory.querySelector(".chapter").id.split("-")[1];
+      return new LessonCategory(lessonId, lessonCategory);
+    },
+  );
+  return lessons;
+}

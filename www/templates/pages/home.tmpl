@@ -4,6 +4,7 @@
 </header>
 <main>
   {{ range $i, $chap := .Chapters }}
+    
   <h2 class="chapter" id="chapter-{{ $i }}">{{ $chap.Name }} <button class="collapse-button">collapse</button></h2>
   <ul>
     {{ range $chap.Lessons }}
@@ -17,11 +18,12 @@
         {{ end }}
       </li>
     {{end}}
-    
   </ul>
+  </div>
   {{end}}
 </main>
   {{ if $.EditPerms }}
     <script src="/static/js/manager.js"></script>
   {{ end }}
+   <script src="/static/js/home.js"></script>
 {{end}}

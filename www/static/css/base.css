@@ -218,7 +218,7 @@ main:has(.chapter) {
   border-radius: 2.5rem;
 }
 
-main > div {
+main > div > div {
   box-sizing: border-box;
   max-width: 50rem;
   flex-grow: 1;
@@ -722,4 +722,18 @@ span.TMLink {
 }
 span.TMLinkLabel_Invalid {
   color: var(--red-700);
+}
+
+.lesson-category > ul {
+  overflow: hidden;
+  transition-property: margin, padding, max-height;
+  transition: 0.4s cubic-bezier(0, 0.65, 0.27, 1.09);
+  max-height: fit-content;
+  interpolate-size: allow-keywords;
+}
+
+.lesson-category.hidden > ul {
+  margin: 0;
+  padding: 0;
+  max-height: 0;
 }
